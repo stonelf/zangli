@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>藏历转换测试</title>
+		<script src="zangli.json" async defer charset="UTF-8"></script>
+	</head>
+	<body>
+<script>
+if(typeof getZangli == "undefined"){
+	getZangli=function(){
+		console.error("藏历映射表尚未加载");
+		return "error";
+	}
+}
+function zangli_callback(){
+
+	document.body.innerHTML =
+	getZangli()+"<br>"+
+	getZangli("")+"<br>"+
+	getZangli(new Date())+"<br>"+
+	getZangli("2016/1/28")+"<br>"+
+	getZangli("2013/10/24")+"<br>"+
+	getZangli("2006/1/1")+"<br>"+
+	getZangli(123)+"<br>"+
+	getZangli("123")+"<br>"+
+	getZangli(document)+"<br>"+
+	getZangli(new Date(2006,0,1))+"<br>";
+}
+</script>
+</body>
+</html>
