@@ -27,19 +27,19 @@ function getZangli(p,extraInfo){
 		return "error";			
 	}
 	if(!!extraInfo){//需要附加的节庆日信息
-		if (/月初八/.test(result)){
+		if (/月初八$/.test(result)){
 			result += "，药师佛节日"
 		}		
-		if (/月初十/.test(result)){
+		if (/月初十$/.test(result)){
 			result += "，莲师荟供日"
 		}		
-		if (/月十五/.test(result)){
+		if (/月十五$/.test(result)){
 			result += "，阿弥陀佛节日"
 		}		
-		if (/月廿五/.test(result)){
+		if (/月廿五$/.test(result)){
 			result += "，空行母荟供日"
 		}
-		if (/月三十/.test(result)){
+		if (/月三十$/.test(result)){
 			result += "，释迦牟尼佛节日"
 		}
 	}
