@@ -28,19 +28,46 @@ function getZangli(p,extraInfo){
 	}
 	if(!!extraInfo){//需要附加的节庆日信息
 		if (/月初八$/.test(result)){
-			result += "，药师佛节日"
+			result += "，禅定胜王佛节日，作何善恶成百倍"
+		}		
+		if (/月初八$/.test(result)){
+			result += "，药师佛节日，作何善恶成千倍"
 		}		
 		if (/月初十$/.test(result)){
-			result += "，莲师荟供日"
+			result += "，莲师荟供日，作何善恶成十万倍"
 		}		
 		if (/月十五$/.test(result)){
-			result += "，阿弥陀佛节日"
+			result += "，阿弥陀佛节日，作何善恶成百万倍"
+		}		
+		if (/月十八$/.test(result)){
+			result += "，观音菩萨节日，作何善恶成千万倍"
+		}		
+		if (/月廿一$/.test(result)){
+			result += "，地藏王菩萨节日，作何善恶成亿倍"
 		}		
 		if (/月廿五$/.test(result)){
 			result += "，空行母荟供日"
 		}
 		if (/月三十$/.test(result)){
-			result += "，释迦牟尼佛节日"
+			result += "，释迦牟尼佛节日，作何善恶成九亿倍"
+		}
+		if (/(正月初)|(正月十[一二三四5⃣️])/.test(result)){
+			result += "，神变节"
+		}
+		if (/^四月初七$/.test(result)){
+			result += "，释迦牟尼佛诞辰"
+		}
+		if (/^四月十五$/.test(result)){
+			result += "，释迦牟尼佛成道日涅槃日"
+		}
+		if (/^六月初四$/.test(result)){
+			result += "，释迦牟尼佛初转法轮日"
+		}
+		if (/^六月十五$/.test(result)){
+			result += "，释迦牟尼佛入胎日"
+		}
+		if (/^九月廿二$/.test(result)){
+			result += "，释迦牟尼佛天降日"
 		}
 	}
 	return result;
