@@ -27,7 +27,7 @@ function getZangli(p,extraInfo){
 		return "error";			
 	}
 	if(!!extraInfo){//需要附加的节庆日信息
-		if (/月初八$/.test(result)){
+		if (/月初一$/.test(result)){
 			result += "，禅定胜王佛节日，作何善恶成百倍"
 		}		
 		if (/月初八$/.test(result)){
