@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>藏历转换测试</title>
+		<script src="new_zangli.js" async defer charset="UTF-8"></script>
+	</head>
+	<body>
+<script>
+if(typeof getZangli == "undefined"){
+	getZangli=function(){
+		console.error("藏历映射表尚未加载");
+		return "error";
+	}
+}
+function zangli_callback(){
+	
+	var s=[],tDate=new Date("1971/1/1"),lastMonth,color;
+	for(var i=0;i<8000;i++){
+		var zl=getZangli(tDate);
+		if(lastMonth != zl.tMonth){
+			lastMonth=zl.tMonth;
+			s.push("<br>("+tDate.getFullYear()+")"+zl.year+"年"+lastMonth+"月<br>");
+		}
+		color=zl.dayMiss?"red":zl.dayLeap?"orange":"black";
+		s.push("<nobr>"+(tDate.getMonth()+1)+"/"+tDate.getDate()+":<font color="+color+">"+zl.day+"</font></nobr>");
+		tDate.setDate(tDate.getDate()+1);
+	}
+	document.body.innerHTML =s.join(" &nbsp; ");
+	
+//	getZangli("1953/09/24");
+//	getZangli("1953/09/25");
+//	getZangli("1953/10/16");
+//	getZangli("1953/10/17");
+}
+</script>
+</body>
+</html>
