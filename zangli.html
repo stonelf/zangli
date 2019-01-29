@@ -14,25 +14,15 @@ if(typeof getZangli == "undefined"){
 	}
 }
 function zangli_callback(){
-	document.body.innerHTML =
-	getZangli()+"<br>"+
-	getZangli("")+"<br>"+
-	getZangli(new Date(),true)+"<br>"+
-	"2017/3/1:"+getZangli("2017/03/1",true)+"<br>"+
-	"2017/5/1:"+getZangli("2017/5/01",true)+"<br>"+
-	"2017/6/30:"+getZangli("2017/6/30",true)+"<br>"+
-	"2017/8/1:"+getZangli("2017/08/1",true)+"<br>"+
-	"2017/11/22:"+getZangli("2017/11/22",true)+"<br>"+
-	"2017/12/31:"+getZangli("2017/12/31",true)+"<br>"+
-	"2018/11/1:"+getZangli("2018/11/1",true)+"<br>"+
-	"2018/12/31:"+getZangli("2018/12/31",true)+"<br>"+
-	"2019/1/31:"+getZangli("2019/1/31",true)+"<br>"+
-	"2019/12/31:"+getZangli("2019/12/31",true)+"<br>"+
-	getZangli("2006/1/1")+"<br>"+
-	getZangli(123)+"<br>"+
-	getZangli("123")+"<br>"+
-	getZangli(document)+"<br>"+
-	getZangli(new Date(2006,0,1))+"<br>";
+	var ar=[]
+	ar.push("1951/2/7:"+getZangli("1951/2/7").extraInfo);
+	for(var i=1952;i<2052;i++){
+		var s=i+"/1/1";
+		var z=getZangli(s);
+		ar.push(s+":"+z.value+z.extraInfo);
+	}
+	
+	document.body.innerHTML =ar.join("<br>")
 }
 </script>
 </body>
