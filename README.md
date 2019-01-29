@@ -6,6 +6,7 @@
 
 主文件：[zangli.js](zangli.js)  
 
-测试和使用示范：[test_zangli.html](test_zangli.html)
+测试和使用示范：[zangli.html](zangli.html)
 
-*其实说难也不难，没什么算法，就是要hardcode一个映射表罢了，嘿嘿嘿*
+* 2019年开始从《藏历、公历、农历对照百年历书（1951-2050)》[http://item.jd.com/11574570.html] 中更新数据。
+
