@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			.right{text-align:right}
+			.center{text-align:center}
+			.day{font-size:1.2em}
+			.day0{font-size:1em}
+			.day1{font-size:1.3em}
+			.day2{font-size:1em}
+			.day3{font-size:0.5em}
+			th{width:7em}
+		</style>
+		<title>藏历</title>
+		<script src="zangli.js" async defer></script>
+		<script>
+		function $(id){return document.getElementById(id)}
+		window.onhashchange=zangli_callback;
+		function zangli_callback(){
+			var h=location.hash;
+			var d=h?new Date(h.substr(1)):new Date();
+			$("selectedDay").innerHTML="公历"+d.getFullYear()+"年"+(d.getMonth()+1)+"月"+d.getDate()+"日，藏历"+getZangli(d).value;
+			$("year").options.length=0;
+			for(var i=1951;i<2052;i++){
+				$("year").appendChild(new Option(i));
+			}
+			$("month").options.length=0;
+			for(var i=1;i<13;i++){
+				if(d.getFullYear()==1951 && i==1){
+					var o=document.createElement("optgroup");
+					o.label=i;
+					$("month").appendChild(o)
+				}else if(d.getFullYear()==2051 && i>1){
+					var o=document.createElement("optgroup");
+					o.label=i;
+					$("month").appendChild(o)
+				}else
+				$("month").appendChild(new Option(i));
+				
+			}
+			$("year").value=d.getFullYear();
+			$("month").value=d.getMonth()+1;
+
+			var tbody=document.getElementsByTagName("tbody")[0];
+			while(tbody.rows.length>1){
+				tbody.deleteRow(tbody.rows.length-1)
+			}
+			var tr,td;
+			var d0=new Date(d.getFullYear(),d.getMonth(),1);
+			var d1=new Date(d.getFullYear(),d.getMonth()+1,0);
+			tr=tbody.insertRow();
+			for(var i=0;i<d0.getDay();i++){
+				td=tr.insertCell();
+			}
+			for(var i=d0.getDate();i<=d1.getDate();i++){
+				var d3=new Date(d.getFullYear(),d.getMonth(),i);
+				if(d3.getDay()==0 ){
+					tr=tbody.insertRow()
+				}
+				
+				var z=getZangli(d3);
+
+				var t=[];
+				if(i==d0.getDate()){
+					t.push("<div class='center day0'>"+d.getFullYear()+"年"+(d.getMonth()+1)+"月1日");
+				}else{
+					t.push("<div class='right day0'>"+i)
+				}
+				t.push("</div><div class='day1 center'>")
+				if(z.day=="初一")
+					t.push(z.month+"月"+z.day)
+				else
+					t.push(z.day);
+				t.push("</div><div class='center day2'>");
+				t.push(z.extraInfo?z.extraInfo:"&nbsp;")
+				t.push("</div><div class='center day3'>");
+				t.push(z.extraInfo2?z.extraInfo2:"&nbsp;")
+				t.push("</div>");
+				
+				tr.insertCell().innerHTML=t.join("");
+			}
+			for(var i=d3.getDay();i<6;i++){
+				td=tr.insertCell();
+			}
+		}
+		function changeDate(){
+			if($("year").value==2051) $("month").value=1;
+			location.replace(location.pathname+"#"+$("year").value+"/"+$("month").value+"/1");
+		}
+		</script>
+	</head>
+	<body>
+		<br>
+		<span class=day id="selectedDay"></span>
+		<select id="year" onchange="changeDate()"></select>
+		<select id="month" onchange="changeDate()"></select>
+		<br><br>
+		<table cellspacing=1 bgcolor="brown" cellpadding="5">
+			<tbody bgcolor="white">
+				<tr bgcolor="darkred" style="color:white">
+					<th>星期日</th>
+					<th>星期一</th>
+					<th>星期二</th>
+					<th>星期三</th>
+					<th>星期四</th>
+					<th>星期五</th>
+					<th>星期六</th>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

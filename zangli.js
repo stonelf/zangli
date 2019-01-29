@@ -202,26 +202,28 @@ function getZangli(p){
 				result.dayMiss=dayMiss;
 				result.value=result.year+"年"+result.month+"月("+result.tMonth+"月)"+result.day;
 				extraInfo="";
+				extraInfo2=""
 				if(!dayLeap)switch (tDays){
 					case 0:
-						if(months==0) extraInfo="神变节";else extraInfo="禅定胜王佛节日，作何善恶成百倍";
+						if(months==0) extraInfo="神变节";else{extraInfo="禅定胜王佛节日";extraInfo2="作何善恶成百倍";}
 						break;
 					case 3:if(months==5) extraInfo="释迦牟尼佛初转法轮日";break;
 					case 6:if(months==3) extraInfo="释迦牟尼佛诞辰";break;
-					case 7:extraInfo="药师佛节日，作何善恶成千倍";break;
-					case 9:extraInfo="莲师荟供日，作何善恶成十万倍";break;
+					case 7:extraInfo="药师佛节日";extraInfo2="作何善恶成千倍";break;
+					case 9:extraInfo="莲师荟供日";extraInfo2="作何善恶成十万倍";break;
 					case 14:
 						if(months==3) extraInfo="释迦牟尼佛成道日涅槃日";
 						else if(months==5) extraInfo="释迦牟尼佛入胎日";
-						else extraInfo="阿弥陀佛节日，作何善恶成百万倍";
+						else extraInfo="阿弥陀佛节日";extraInfo2="作何善恶成百万倍";
 						break;
-					case 17:extraInfo="观音菩萨节日，作何善恶成千万倍";break;
+					case 17:extraInfo="观音菩萨节日";extraInfo2="作何善恶成千万倍";break;
 					case 19:if(months==8) extraInfo="释迦牟尼佛天降日";break;
-					case 20:extraInfo="地藏王菩萨节日，作何善恶成亿倍";break;
+					case 20:extraInfo="地藏王菩萨节日";extraInfo2="作何善恶成亿倍";break;
 					case 24:extraInfo="空行母荟供日";break;
-					case 29:extraInfo="释迦牟尼佛节日，作何善恶成九亿倍";break;
+					case 29:extraInfo="释迦牟尼佛节日";extraInfo2="作何善恶成九亿倍";break;
 				}
 				result.extraInfo=extraInfo;
+				result.extraInfo2=extraInfo2;
 				result.toString=function(){
 					return this.value
 				}
