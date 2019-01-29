@@ -1,3 +1,10 @@
+/*!
+ * zangli - v1.0 - 2019-01-29
+ * Copyright Stone Huang and other contributors
+ * https://github.com/stonelf/zangli
+ * 本项目提供1951年2月7日到2051年1月12日之间到公历藏历对照查询。数据来源于《藏历、公历、农历对照百年历书（1951-2050）》
+ */
+
 /* 缺日闰日表
  * 第一层代表一年，第二层代表一月。
  * 数组中负数表示当天缺日，正数表示当天闰日

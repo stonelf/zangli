@@ -11,44 +11,42 @@
 			.day2{font-size:1em}
 			.day3{font-size:0.5em}
 			th{width:7em}
+			select{font-size:1.1em}
 		</style>
-		<title>藏历</title>
-		<script src="zangli.js" async defer></script>
+		<title>百年藏历 - 1951年2月7日到2051年1月12日之间到公历藏历对照查询</title>
+		<script src="zangli.js" async defer charset="UTF-8"></script>
 		<script>
 		function $(id){return document.getElementById(id)}
 		window.onhashchange=zangli_callback;
+		var $m,$y;
 		function zangli_callback(){
 			var h=location.hash;
+			$m=$("month");
+			$y=$("year");
 			var d=h?new Date(h.substr(1)):new Date();
+			if(d<new Date("1951/2/7"))d=new Date("1951/2/7");
+			if(d>new Date("2051/1/12"))d=new Date("2051/1/12");
 			$("selectedDay").innerHTML="公历"+d.getFullYear()+"年"+(d.getMonth()+1)+"月"+d.getDate()+"日，藏历"+getZangli(d).value;
-			$("year").options.length=0;
+			$y.options.length=0;
 			for(var i=1951;i<2052;i++){
-				$("year").appendChild(new Option(i));
+				$y.appendChild(new Option(i));
 			}
-			$("month").options.length=0;
+			$m.options.length=0;
+			
 			for(var i=1;i<13;i++){
-				if(d.getFullYear()==1951 && i==1){
-					var o=document.createElement("optgroup");
-					o.label=i;
-					$("month").appendChild(o)
-				}else if(d.getFullYear()==2051 && i>1){
-					var o=document.createElement("optgroup");
-					o.label=i;
-					$("month").appendChild(o)
-				}else
-				$("month").appendChild(new Option(i));
-				
+				if(!((d.getFullYear()==1951 && i==1)||(d.getFullYear()==2051 && i>1)))
+					$m.appendChild(new Option(i));
 			}
-			$("year").value=d.getFullYear();
-			$("month").value=d.getMonth()+1;
+			$y.value=d.getFullYear();
+			$m.value=d.getMonth()+1;
 
 			var tbody=document.getElementsByTagName("tbody")[0];
 			while(tbody.rows.length>1){
 				tbody.deleteRow(tbody.rows.length-1)
 			}
 			var tr,td;
-			var d0=new Date(d.getFullYear(),d.getMonth(),1);
-			var d1=new Date(d.getFullYear(),d.getMonth()+1,0);
+			var d0=new Date(d.getFullYear(),d.getMonth(),1);//月初
+			var d1=new Date(d.getFullYear(),d.getMonth()+1,0);//月末
 			tr=tbody.insertRow();
 			for(var i=0;i<d0.getDay();i++){
 				td=tr.insertCell();
@@ -71,33 +69,60 @@
 				if(z.day=="初一")
 					t.push(z.month+"月"+z.day)
 				else
-					t.push(z.day);
+					if(z.value!="error") t.push(z.day);
 				t.push("</div><div class='center day2'>");
 				t.push(z.extraInfo?z.extraInfo:"&nbsp;")
 				t.push("</div><div class='center day3'>");
 				t.push(z.extraInfo2?z.extraInfo2:"&nbsp;")
 				t.push("</div>");
-				
-				tr.insertCell().innerHTML=t.join("");
+				td=tr.insertCell()
+				td.innerHTML=t.join("");
+				if(z.value!="error")
+				td.title="公历"+d3.getFullYear()+"年"+(d3.getMonth()+1)+"月"+d3.getDate()+"日，藏历"+z.value;
 			}
 			for(var i=d3.getDay();i<6;i++){
-				td=tr.insertCell();
+				tr.insertCell();
 			}
 		}
-		function changeDate(){
-			if($("year").value==2051) $("month").value=1;
-			location.replace(location.pathname+"#"+$("year").value+"/"+$("month").value+"/1");
+		function showDay(e){
+			while(e.tagName!="TD" && e.tagName!="TABLE"){
+				e=e.parentNode;
+			}
+			if(e.title){
+				$("selectedDay").innerHTML=e.title;
+			}
+		}
+		function changeDate(code){
+			var m=$m.value;
+			var y=$y.value;
+			if(code==37){
+				m--;
+			}else if(code==38){
+				y--;
+			}else if(code==39){
+				m++;
+			}else if(code==40){
+				y++;
+			}else if(code!="year" && code!="month"){
+				return;
+			}
+			if(m==0){y--;m=12}
+			if(m==13){y++;m=1}
+			location.replace(location.pathname+"#"+y+"/"+m+"/1");
+			window.scrollTo(0,0);
 		}
 		</script>
 	</head>
-	<body>
+	<body onkeyup="changeDate(event.keyCode)">
 		<br>
-		<span class=day id="selectedDay"></span>
-		<select id="year" onchange="changeDate()"></select>
-		<select id="month" onchange="changeDate()"></select>
-		<br><br>
+		<div class=day id="selectedDay"></div>
+		<div class=day> 选择要查看的公历日期 ： 
+		<select id="year" onchange="changeDate('year')"></select>
+		&nbsp;
+		<select id="month" onchange="changeDate('month')"></select>
+		</div><br>
 		<table cellspacing=1 bgcolor="brown" cellpadding="5">
-			<tbody bgcolor="white">
+			<tbody bgcolor="white" onclick="showDay(event.srcElement)">
 				<tr bgcolor="darkred" style="color:white">
 					<th>星期日</th>
 					<th>星期一</th>
@@ -109,5 +134,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<p>本页面1951年2月7日到2051年1月12日之间到公历藏历对照查询。数据来源于《藏历、公历、农历对照百年历书（1951-2050）》</p>
+		<p>本页面和数据开源于 https://github.com/stonelf/zangli ，欢迎下载使用。</p>
 	</body>
 </html>
