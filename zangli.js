@@ -256,28 +256,29 @@ function getEclipse(date){//日食月食信息
 	var result=new eclipse();
 	var oneday=86400000;
 	for(var i=0;i<lunar.length;i++){
-		var d=new Date(lunar[i][0]-oneday/24*8);//把月食的时间转换成东八区的时间来获得日期
+		var d=new Date(lunar[i][0]+oneday/24*8);//把月食的时间转换成东八区的时间来获得日期
 		if(d.toDateString()==date.toDateString()) {
 			result.value="有月"+eclipseType[lunar[i][1]];
-			result.extraInfo="食甚"+d.getHours()+"点"+d.getMinutes()+"分";
+			result.extraInfo="食甚"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
 		}
-		var d=new Date(lunar[i][0]-oneday/24*8-oneday);
+		var d=new Date(lunar[i][0]+oneday/24*8-oneday);
 		if(d.toDateString()==date.toDateString())
 			result.extraInfo="一天后有月"+eclipseType[lunar[i][1]];
-		var d=new Date(lunar[i][0]-oneday/24*8-oneday*2);
+		var d=new Date(lunar[i][0]+oneday/24*8-oneday*2);
 		if(d.toDateString()==date.toDateString()) 
 			result.extraInfo="两天后有月"+eclipseType[lunar[i][1]];
+			
 	}
 	for(var i=0;i<solar.length;i++){
-		var d=new Date(solar[i][0]-oneday/24*8);//把日食的时间转换成东八区的时间来获得日期
+		var d=new Date(solar[i][0]+oneday/24*8);//把日食的时间转换成东八区的时间来获得日期
 		if(d.toDateString()==date.toDateString()){
 			result.value="有日"+eclipseType[lunar[i][1]];
-			result.extraInfo="食甚"+d.getHours()+"点"+d.getMinutes()+"分";
+			result.extraInfo="食甚"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
 		}
-		var d=new Date(solar[i][0]-oneday/24*8-oneday);
+		var d=new Date(solar[i][0]+oneday/24*8-oneday);
 		if(d.toDateString()==date.toDateString()) 
 			result.extraInfo="一天后有日"+eclipseType[lunar[i][1]];
-		var d=new Date(solar[i][0]-oneday/24*8-oneday*2);
+		var d=new Date(solar[i][0]+oneday/24*8-oneday*2);
 			if(d.toDateString()==date.toDateString()) 
 			result.extraInfo="两天后有日"+eclipseType[lunar[i][1]];
 	}
