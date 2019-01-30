@@ -10,6 +10,8 @@
 			.day1{font-size:1.3em}
 			.day2{font-size:1em}
 			.day3{font-size:0.5em}
+			.lunareclipse{background-color:#aaaaff}
+			.solareclipse{background-color:#ffaaaa}
 			th{width:7em}
 			select{font-size:1.1em}
 		</style>
@@ -56,9 +58,8 @@
 				if(d3.getDay()==0 ){
 					tr=tbody.insertRow()
 				}
-				
 				var z=getZangli(d3);
-
+				var ecl = getEclipse(d3);
 				var t=[];
 				if(i==d0.getDate()){
 					t.push("<div class='center day0'>"+d.getFullYear()+"年"+(d.getMonth()+1)+"月1日");
@@ -73,12 +74,22 @@
 				t.push("</div><div class='center day2'>");
 				t.push(z.extraInfo?z.extraInfo:"&nbsp;")
 				t.push("</div><div class='center day3'>");
-				t.push(z.extraInfo2?z.extraInfo2:"&nbsp;")
+				t.push(ecl.value?ecl.value:(z.extraInfo2?z.extraInfo2:"&nbsp;"))
 				t.push("</div>");
 				td=tr.insertCell()
 				td.innerHTML=t.join("");
 				if(z.value!="error")
 				td.title="公历"+d3.getFullYear()+"年"+(d3.getMonth()+1)+"月"+d3.getDate()+"日，藏历"+z.value;
+				if(ecl.value!=""){
+					td.title=td.title+","+ecl.value;
+					if(/日/.test(ecl.value))
+					td.className = "solareclipse"
+					else
+					td.className = "lunareclipse"
+				}
+				if(ecl.extraInfo!=""){
+					td.title=td.title+","+ecl.extraInfo;
+				}
 			}
 			for(var i=d3.getDay();i<6;i++){
 				tr.insertCell();
@@ -134,7 +145,9 @@
 				</tr>
 			</tbody>
 		</table>
-		<p>本页面1951年2月7日到2051年1月12日之间到公历藏历对照查询。数据来源于《藏历、公历、农历对照百年历书（1951-2050）》</p>
+		<p>本页面提供1951年2月7日到2051年1月12日之间到公历藏历对照查询。</p>
+		<p>藏历数据来源于《藏历、公历、农历对照百年历书（1951-2050）》</p>
+		<p>日月食数据来自nasa，并从UTC时间转换到北京时间计算日期</p>
 		<p>本页面和数据开源于 https://github.com/stonelf/zangli ，欢迎下载使用。</p>
 	</body>
 </html>
