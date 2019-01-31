@@ -1,22 +1,41 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta charset="UTF-8">
 		<meta name="description" content="提供1951年2月7日到2051年1月12日之间到公历藏历对照查询">
 		<meta name="keywords" content="藏历2019年,藏历2020年,百年">
 		<meta name="author"  content="Stone Huang">
 		<style>
-			.right{text-align:right}
-			.center{text-align:center}
-			.day{font-size:1.2em}
-			.day0{font-size:1em}
-			.day1{font-size:1.3em}
-			.day2{font-size:1em}
-			.day3{font-size:0.5em}
-			.lunareclipse{background-color:#aaaaff}
-			.solareclipse{background-color:#ffaaaa}
-			th{width:7em}
-			select{font-size:1.1em}
+		@media only screen and (max-width:639px ) {
+			body{font-size:x-small}
+			.narrow{display:}
+			.wide{display:none}
+		}
+		@media only screen and (min-width:640px ){
+		.narrow{display:none}
+		.wide{display:}
+		}
+		@media only screen and (max-width:1023px ){
+		.day2{font-size:0.85em;}
+		.day3{font-size:0.8em}
+		}
+		@media only screen and (min-width:1024px ){
+		.day2{font-size:1em}
+		.day3{font-size:0.5em}
+		}
+		th{width:7em}
+		select{font-size:1.1em}
+		.right{text-align:right}
+		.center{text-align:center}
+		.day{font-size:1.2em}
+		.day0{font-size:1em}
+		.day1{font-size:1.3em}
+		.lunareclipse{background-color:#aaaaff}
+		.solareclipse{background-color:#ffaaaa}
+	
+
+
 		</style>
 		<title>百年藏历 - 藏历在线查询</title>
 
@@ -66,7 +85,7 @@
 				var ecl = getEclipse(d3);
 				var t=[];
 				if(i==d0.getDate()){
-					t.push("<div class='center day0'>"+d.getFullYear()+"年"+(d.getMonth()+1)+"月1日");
+					t.push("<div class='center day0'><span class=wide>"+d.getFullYear()+"年"+(d.getMonth()+1)+"月1日</span><span class=narrow>"+i+"</span>");
 				}else{
 					t.push("<div class='right day0'>"+i)
 				}
@@ -75,9 +94,9 @@
 					t.push(z.month+"月"+z.day)
 				else
 					if(z.value!="error") t.push(z.day);
-				t.push("</div><div class='center day2'>");
+				t.push("</div><div class='center day2 wide'>");
 				t.push(z.extraInfo?z.extraInfo:"&nbsp;")
-				t.push("</div><div class='center day3'>");
+				t.push("</div><div class='center day3 wide'>");
 				t.push(ecl.value?(ecl.value+","+ecl.extraInfo.replace(/，/,",<br>")):(z.extraInfo2?z.extraInfo2:"&nbsp;"))
 				t.push("</div>");
 				td=tr.insertCell()
@@ -139,13 +158,13 @@
 		<table cellspacing=1 bgcolor="brown" cellpadding="5">
 			<tbody bgcolor="white" onclick="showDay(event.srcElement)">
 				<tr bgcolor="darkred" style="color:white">
-					<th>星期日</th>
-					<th>星期一</th>
-					<th>星期二</th>
-					<th>星期三</th>
-					<th>星期四</th>
-					<th>星期五</th>
-					<th>星期六</th>
+					<th><span class="narrow">周</span><span class="wide">星期</span>日</th>
+					<th><span class="narrow">周</span><span class="wide">星期</span>一</th>
+					<th><span class="narrow">周</span><span class="wide">星期</span>二</th>
+					<th><span class="narrow">周</span><span class="wide">星期</span>三</th>
+					<th><span class="narrow">周</span><span class="wide">星期</span>四</th>
+					<th><span class="narrow">周</span><span class="wide">星期</span>五</th>
+					<th><span class="narrow">周</span><span class="wide">星期</span>六</th>
 				</tr>
 			</tbody>
 		</table>
