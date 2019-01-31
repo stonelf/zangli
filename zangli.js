@@ -214,12 +214,12 @@ function getZangli(p){
 					case 0:
 						if(months==0) extraInfo="神变节";else{extraInfo="禅定胜王佛节日";extraInfo2="作何善恶成百倍";}
 						break;
-					case 3:if(months==5) extraInfo="释迦牟尼佛初转法轮日";break;
+					case 3:if(months==5) extraInfo="释迦牟尼佛<br>初转法轮日";break;
 					case 6:if(months==3) extraInfo="释迦牟尼佛诞辰";break;
 					case 7:extraInfo="药师佛节日";extraInfo2="作何善恶成千倍";break;
 					case 9:extraInfo="莲师荟供日";extraInfo2="作何善恶成十万倍";break;
 					case 14:
-						if(months==3) extraInfo="释迦牟尼佛成道日涅槃日";
+						if(months==3) extraInfo="释迦牟尼佛<br>成道日涅槃日";
 						else if(months==5) extraInfo="释迦牟尼佛入胎日";
 						else extraInfo="阿弥陀佛节日";extraInfo2="作何善恶成百万倍";
 						break;
@@ -255,7 +255,7 @@ function getEclipse(date){
 	for(var i=0;i<eclipseList.length;i++){
 		var d=new Date(eclipseList[i][0]+ms_8hr);//把月食的时间转换成东八区的时间来获得日期
 		if(d.toDateString()==date.toDateString()) {
-			result.value="有"+eclipseType[eclipseList[i][1]];
+			result.value=eclipseType[eclipseList[i][1]];
 			result.extraInfo="食甚"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
 			result.extraInfo2="";
 			if( eclipseList[i].length>2){

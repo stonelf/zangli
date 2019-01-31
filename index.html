@@ -78,7 +78,7 @@
 				t.push("</div><div class='center day2'>");
 				t.push(z.extraInfo?z.extraInfo:"&nbsp;")
 				t.push("</div><div class='center day3'>");
-				t.push(ecl.value?ecl.value:(z.extraInfo2?z.extraInfo2:"&nbsp;"))
+				t.push(ecl.value?(ecl.value+","+ecl.extraInfo.replace(/，/,",<br>")):(z.extraInfo2?z.extraInfo2:"&nbsp;"))
 				t.push("</div>");
 				td=tr.insertCell()
 				td.innerHTML=t.join("");
@@ -151,7 +151,7 @@
 		</table>
 		<p>本页面提供1951年2月7日到2051年1月12日之间到公历藏历对照查询。</p>
 		<p>藏历数据来源于《藏历、公历、农历对照百年历书（1951-2050）》</p>
-		<p>日月食数据来自nasa，并从UTC时间转换到北京时间计算日期</p>
+		<p>日月食数据来自nasa，并从UTC时间转换到北京时间计算日期。由于地球上不通位置看到的初亏复圆的时间会不同，<br>nasa没有提供初亏复圆时间。本站根据网传数据补齐了部分数据，时间可能存在误差。</p>
 		<p>本页面和数据开源于 https://github.com/stonelf/zangli ，欢迎下载使用。</p>
 	</body>
 </html>
