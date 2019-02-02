@@ -1,0 +1,30 @@
+
+@media only screen and (max-width:639px ) {
+	body{font-size:x-small}
+	.narrow{display:}
+	.wide{display:none}
+}
+@media only screen and (min-width:640px ){
+.narrow{display:none}
+.wide{display:}
+}
+@media only screen and (max-width:1023px ){
+.day2{font-size:0.85em;}
+.day3{font-size:0.8em}
+}
+@media only screen and (min-width:1024px ){
+.day2{font-size:1em}
+.day3{font-size:0.5em}
+}
+td{border-right:1px solid darkred;border-bottom:1px solid darkred;width:7em}
+td.left{border-left:1px solid darkred;}
+td.noborder{border:0px}
+.right{text-align:right}
+.center{text-align:center}
+.day{font-size:1.2em}
+.day0{font-size:1.5em}
+.day1{font-size:1.3em}
+.month{font-size:2em}
+.month1{color:red}
+.lunareclipse{background-color:#aaaaff}
+.solareclipse{background-color:#ffaaaa}
