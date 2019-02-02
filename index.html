@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta charset="UTF-8">
 		<meta name="description" content="提供1951年2月7日到2051年1月12日之间到公历藏历对照查询">
-		<meta name="keywords" content="藏历2019年,藏历2020年,百年">
+		<meta name="keywords" content="在线,藏历,百年,万年历，藏历月历">
 		<meta name="author"  content="Stone Huang">
 		<style>
 		@media only screen and (max-width:639px ) {
@@ -31,11 +31,10 @@
 		.day{font-size:1.2em}
 		.day0{font-size:1em}
 		.day1{font-size:1.3em}
+		.month{color:darkred;/*text-shadow: 0 0 2px orangered;*/ }
+		.month1{color:red}
 		.lunareclipse{background-color:#aaaaff}
 		.solareclipse{background-color:#ffaaaa}
-	
-
-
 		</style>
 		<title>百年藏历 - 藏历在线查询</title>
 
@@ -90,8 +89,8 @@
 					t.push("<div class='right day0'>"+i)
 				}
 				t.push("</div><div class='day1 center'>")
-				if(z.day=="初一")
-					t.push(z.month+"月"+z.day)
+				if(z.day=="初一" || (z.day=="初二" && z.dayMiss))
+					t.push("<b class=month1>"+(z.month=='正'&&!z.monthLeap?z.year+"年<br>":"")+z.month+"月</b><wbr>"+z.day)
 				else
 					if(z.value!="error") t.push(z.day);
 				t.push("</div><div class='center day2 wide'>");
@@ -155,7 +154,7 @@
 		&nbsp;
 		<select id="month" onchange="changeDate('month')"></select>
 		</div><br>
-		<table cellspacing=1 bgcolor="brown" cellpadding="5">
+		<table cellspacing=1 bgcolor="brown" cellpadding="2em">
 			<tbody bgcolor="white" onclick="showDay(event.srcElement)">
 				<tr bgcolor="darkred" style="color:white">
 					<th><span class="narrow">周</span><span class="wide">星期</span>日</th>
@@ -168,9 +167,14 @@
 				</tr>
 			</tbody>
 		</table>
-		<p>本页面提供1951年2月7日到2051年1月12日之间到公历藏历对照查询。</p>
+		<p class=narrow style="color:red">如果使用的是手机，尝试横屏以查看更多信息</p>
+		</p>		<p>本页面提供1951年2月7日到2051年1月12日之间的公历藏历对照查询。</p>
 		<p>藏历数据来源于《藏历、公历、农历对照百年历书（1951-2050）》</p>
 		<p>日月食数据来自nasa，并从UTC时间转换到北京时间计算日期。由于地球上不通位置看到的初亏复圆的时间会不同，<br>nasa没有提供初亏复圆时间。本站根据网传数据补齐了部分数据，时间可能存在误差。</p>
+
 		<p>本页面和数据开源于 https://github.com/stonelf/zangli ，欢迎下载使用。</p>
+		<noscript>
+					<p>不支持javascript的浏览器可以直接访问本月历的html版本：<a href="calendar/1952.html">1952年藏历月历</a> <a href="calendar/1953.html">1953年藏历月历</a> <a href="calendar/1954.html">1954年藏历月历</a> <a href="calendar/1955.html">1955年藏历月历</a> <a href="calendar/1956.html">1956年藏历月历</a> <a href="calendar/1957.html">1957年藏历月历</a> <a href="calendar/1958.html">1958年藏历月历</a> <a href="calendar/1959.html">1959年藏历月历</a> <a href="calendar/1960.html">1960年藏历月历</a> <a href="calendar/1961.html">1961年藏历月历</a> <a href="calendar/1962.html">1962年藏历月历</a> <a href="calendar/1963.html">1963年藏历月历</a> <a href="calendar/1964.html">1964年藏历月历</a> <a href="calendar/1965.html">1965年藏历月历</a> <a href="calendar/1966.html">1966年藏历月历</a> <a href="calendar/1967.html">1967年藏历月历</a> <a href="calendar/1968.html">1968年藏历月历</a> <a href="calendar/1969.html">1969年藏历月历</a> <a href="calendar/1970.html">1970年藏历月历</a> <a href="calendar/1971.html">1971年藏历月历</a> <a href="calendar/1972.html">1972年藏历月历</a> <a href="calendar/1973.html">1973年藏历月历</a> <a href="calendar/1974.html">1974年藏历月历</a> <a href="calendar/1975.html">1975年藏历月历</a> <a href="calendar/1976.html">1976年藏历月历</a> <a href="calendar/1977.html">1977年藏历月历</a> <a href="calendar/1978.html">1978年藏历月历</a> <a href="calendar/1979.html">1979年藏历月历</a> <a href="calendar/1980.html">1980年藏历月历</a> <a href="calendar/1981.html">1981年藏历月历</a> <a href="calendar/1982.html">1982年藏历月历</a> <a href="calendar/1983.html">1983年藏历月历</a> <a href="calendar/1984.html">1984年藏历月历</a> <a href="calendar/1985.html">1985年藏历月历</a> <a href="calendar/1986.html">1986年藏历月历</a> <a href="calendar/1987.html">1987年藏历月历</a> <a href="calendar/1988.html">1988年藏历月历</a> <a href="calendar/1989.html">1989年藏历月历</a> <a href="calendar/1990.html">1990年藏历月历</a> <a href="calendar/1991.html">1991年藏历月历</a> <a href="calendar/1992.html">1992年藏历月历</a> <a href="calendar/1993.html">1993年藏历月历</a> <a href="calendar/1994.html">1994年藏历月历</a> <a href="calendar/1995.html">1995年藏历月历</a> <a href="calendar/1996.html">1996年藏历月历</a> <a href="calendar/1997.html">1997年藏历月历</a> <a href="calendar/1998.html">1998年藏历月历</a> <a href="calendar/1999.html">1999年藏历月历</a> <a href="calendar/2000.html">2000年藏历月历</a> <a href="calendar/2001.html">2001年藏历月历</a> <a href="calendar/2002.html">2002年藏历月历</a> <a href="calendar/2003.html">2003年藏历月历</a> <a href="calendar/2004.html">2004年藏历月历</a> <a href="calendar/2005.html">2005年藏历月历</a> <a href="calendar/2006.html">2006年藏历月历</a> <a href="calendar/2007.html">2007年藏历月历</a> <a href="calendar/2008.html">2008年藏历月历</a> <a href="calendar/2009.html">2009年藏历月历</a> <a href="calendar/2010.html">2010年藏历月历</a> <a href="calendar/2011.html">2011年藏历月历</a> <a href="calendar/2012.html">2012年藏历月历</a> <a href="calendar/2013.html">2013年藏历月历</a> <a href="calendar/2014.html">2014年藏历月历</a> <a href="calendar/2015.html">2015年藏历月历</a> <a href="calendar/2016.html">2016年藏历月历</a> <a href="calendar/2017.html">2017年藏历月历</a> <a href="calendar/2018.html">2018年藏历月历</a> <a href="calendar/2019.html">2019年藏历月历</a> <a href="calendar/2020.html">2020年藏历月历</a> <a href="calendar/2021.html">2021年藏历月历</a> <a href="calendar/2022.html">2022年藏历月历</a> <a href="calendar/2023.html">2023年藏历月历</a> <a href="calendar/2024.html">2024年藏历月历</a> <a href="calendar/2025.html">2025年藏历月历</a> <a href="calendar/2026.html">2026年藏历月历</a> <a href="calendar/2027.html">2027年藏历月历</a> <a href="calendar/2028.html">2028年藏历月历</a> <a href="calendar/2029.html">2029年藏历月历</a> <a href="calendar/2030.html">2030年藏历月历</a> <a href="calendar/2031.html">2031年藏历月历</a> <a href="calendar/2032.html">2032年藏历月历</a> <a href="calendar/2033.html">2033年藏历月历</a> <a href="calendar/2034.html">2034年藏历月历</a> <a href="calendar/2035.html">2035年藏历月历</a> <a href="calendar/2036.html">2036年藏历月历</a> <a href="calendar/2037.html">2037年藏历月历</a> <a href="calendar/2038.html">2038年藏历月历</a> <a href="calendar/2039.html">2039年藏历月历</a> <a href="calendar/2040.html">2040年藏历月历</a> <a href="calendar/2041.html">2041年藏历月历</a> <a href="calendar/2042.html">2042年藏历月历</a> <a href="calendar/2043.html">2043年藏历月历</a> <a href="calendar/2044.html">2044年藏历月历</a> <a href="calendar/2045.html">2045年藏历月历</a> <a href="calendar/2046.html">2046年藏历月历</a> <a href="calendar/2047.html">2047年藏历月历</a> <a href="calendar/2048.html">2048年藏历月历</a> <a href="calendar/2049.html">2049年藏历月历</a> <a href="calendar/2050.html">2050年藏历月历</a>
+		</noscript>
 	</body>
 </html>
