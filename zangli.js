@@ -248,30 +248,29 @@ function eclipse(){
 	this.extraInfo="";
 	this.toString=function(){return this.value;}
 }
+var eclipseDate={};
+var ms_oneday=86400000;
+var ms_8hr=ms_oneday/3;
+for(var i=0;i<eclipseList.length;i++){
+	var d=new Date(eclipseList[i][0]+ms_8hr);//把日月食的时间转换成东八区的时间来获得日期
+	eclipseDate[d.toDateString()]=eclipseList[i];//按照日期映射成哈希表方便查询。
+}
+
 function getEclipse(date){
 	var result=new eclipse();
-	var ms_oneday=86400000;
-	var ms_8hr=ms_oneday/3;
-	for(var i=0;i<eclipseList.length;i++){
-		var d=new Date(eclipseList[i][0]+ms_8hr);//把月食的时间转换成东八区的时间来获得日期
-		if(d.toDateString()==date.toDateString()) {
-			result.value=eclipseType[eclipseList[i][1]];
+	var e=eclipseDate[date.toDateString()];
+	if(e){
+		d=new Date(e[0]+ms_8hr);//把日月食的时间转换成东八区的时间
+		result.value=eclipseType[e[1]];
 			result.extraInfo="食甚"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
 			result.extraInfo2="";
-			if( eclipseList[i].length>2){
+			if( e.length>2){
 				result.extraInfo2=result.extraInfo;
-				d=new Date(eclipseList[i][2]+ms_8hr);
+				d=new Date(e[2]+ms_8hr);
 				result.extraInfo="初亏"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
-				d=new Date(eclipseList[i][3]+ms_8hr);
+				d=new Date(e[3]+ms_8hr);
 				result.extraInfo+="，复圆"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
 			}
-		}
-		d=new Date(eclipseList[i][0]+ms_8hr-ms_oneday);
-		if(d.toDateString()==date.toDateString())
-			result.extraInfo="一天后有"+eclipseType[eclipseList[i][1]];
-		d=new Date(eclipseList[i][0]+ms_8hr-ms_oneday*2);
-		if(d.toDateString()==date.toDateString()) 
-			result.extraInfo="两天后有"+eclipseType[eclipseList[i][1]];
 	}
 	return result;
 }
