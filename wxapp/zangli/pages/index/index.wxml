@@ -1,0 +1,37 @@
+<!--index.wxml-->
+<view class="container"  bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" >
+
+<view>
+<picker mode="date" value="{{dateValue}}" start="1951-02-07" end="2051-01-12" bindchange="datePickerBindchange">
+ {{ currentMonth }}
+</picker>
+</view><view>
+<text>藏历 {{ tibetenMonth }}</text>
+</view>
+<view class="table">
+  <view class="tr">
+    <view class="th ">周日</view>
+    <view class="th">周一</view>
+    <view class="th">周二</view>
+    <view class="th">周三</view>
+    <view class="th">周四</view>
+    <view class="th">周五</view>
+    <view class="th">周六</view>
+  </view>
+
+  <block wx:for="{{zangliData}}" wx:for-index="line">
+  <view  class="tr">
+  <view wx:for="{{zangliData[line]}}" wx:for-index="col"  wx:for-item="item" class="td">
+
+  <text wx:if="{{item.year.length>1}}" class="year">{{item.year}}<text class="day"> </text>\n</text>
+  <text wx:else class="day">{{item.day}}\n</text>
+  <text class="month">{{item.month}}\n</text>
+  <text wx:if="{{item.date.length==2}}" class="lager">{{item.date}}</text>
+  <text wx:else>{{item.date}}<text class="lager"> </text></text>
+  
+  </view>
+  </view>
+ </block>
+<view><text>{{extraInfo}}</text></view>
+</view>
+</view>

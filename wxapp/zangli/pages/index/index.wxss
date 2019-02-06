@@ -1,0 +1,61 @@
+/**index.wxss**/
+
+page {
+  background: #8b0000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+navigator{
+  text-decoration: underline;
+  color:blue;
+}
+picker,text{
+  color:white;
+  text-align: center;
+}
+picker{
+  font-size:1.5rem;
+}
+.table {
+  width:95%;
+}
+.tr {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid white;
+  border-bottom: 1px solid white;
+
+}
+.td {
+    width:14.25%;
+    justify-content: center;
+    text-align: center;
+    border-right: 1px solid white;
+    color:white;
+    font-size:0.8rem;
+}
+.bg-w{
+  background: snow;
+}
+.bg-g{
+  background: #E6F3F9;
+}
+.th {
+  width: 14.25%;
+  justify-content: center;
+  background: #8b0000;
+  color: #fff;
+  display: flex;
+  height: 3rem;
+  align-items: center;
+  border-top: 1px solid white;
+  border-right: 1px solid rgb(255, 255, 255);
+  border-bottom: 1px solid white;
+}
+.month,.year,extra {color:bisque;font-size:0.8rem}
+.day{font-size:1.3rem}
+text.lager{font-size:1.1rem}
