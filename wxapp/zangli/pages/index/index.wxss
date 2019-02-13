@@ -7,13 +7,8 @@ page {
   justify-content: flex-start;
 }
 
-navigator{
-  text-decoration: underline;
-  color:blue;
-}
 picker,text{
   color:white;
-  text-align: center;
 }
 picker{
   font-size:1.5rem;
@@ -22,10 +17,8 @@ picker{
   width:95%;
 }
 .tr {
-  display: flex;
   width: 100%;
-  justify-content: center;
-  align-items: center;
+  display: flex;
   border-left: 1px solid white;
   border-bottom: 1px solid white;
 
@@ -36,7 +29,12 @@ picker{
     text-align: center;
     border-right: 1px solid white;
     color:white;
-    font-size:0.8rem;
+}
+.lunar-eclipse{
+  background-color: rgb(157, 31, 185)
+}
+.solar-eclipse{
+  background-color: rgb(207, 23, 192)
 }
 .bg-w{
   background: snow;
@@ -56,6 +54,25 @@ picker{
   border-right: 1px solid rgb(255, 255, 255);
   border-bottom: 1px solid white;
 }
-.month,.year,extra {color:bisque;font-size:0.8rem}
+
+.small{
+  font-size:0.85rem;
+}
+.smaller{
+  font-size:0.6rem;
+}
+.normal{
+  font-size:0.9rem;
+}
+.highlight{
+  color:bisque;
+}
 .day{font-size:1.3rem}
-text.lager{font-size:1.1rem}
+.lager{font-size:1.1rem}
+.arrow-hide {
+  display: none;
+}
+.arrow-show{
+  display:block;
+  text-align: center;
+}
