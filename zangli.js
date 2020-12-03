@@ -264,9 +264,9 @@ function getEclipse(date){
 	var result=new eclipse();
 	var e=eclipseDate[date.toDateString()];
 	if(e){
-		d=new Date(e[0]+ms_8hr);//把日月食的时间转换成东八区的时间
+		d=new Date(e[0]);//把日月食的时间转换成东八区的时间
 		result.value=eclipseType[e[1]];
-			result.extraInfo="食甚"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
+			result.extraInfo="食甚"+d.getHours()+"点"+d.getMinutes()+"分";
 			result.extraInfo2="";
 			if( e.length>2){
 				result.extraInfo2=result.extraInfo;
