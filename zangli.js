@@ -256,7 +256,6 @@ function eclipse(){
 var eclipseDate={};
 var ms_oneday=86400000;
 for(var i=0;i<eclipseList.length;i++){
-for(var i=0;i<eclipseList.length;i++){
 	var d=new Date(eclipseList[i][0]);//把日月食的时间转换成本地的时间来获得日期
 	eclipseDate[d.toDateString()]=eclipseList[i];//按照日期映射成哈希表方便查询。
 }
