@@ -255,9 +255,9 @@ function eclipse(){
 }
 var eclipseDate={};
 var ms_oneday=86400000;
-var ms_8hr=ms_oneday/3;
 for(var i=0;i<eclipseList.length;i++){
-	var d=new Date(eclipseList[i][0]+ms_8hr);//把日月食的时间转换成东八区的时间来获得日期
+for(var i=0;i<eclipseList.length;i++){
+	var d=new Date(eclipseList[i][0]);//把日月食的时间转换成本地的时间来获得日期
 	eclipseDate[d.toDateString()]=eclipseList[i];//按照日期映射成哈希表方便查询。
 }
 
