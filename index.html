@@ -45,6 +45,7 @@
 		var $m,$y;
 		function zangli_callback(){
 			var h=location.hash;
+			var today = new Date();
 			$m=$("month");
 			$y=$("year");
 			var d=h?new Date(h.substr(1)):new Date();
@@ -112,6 +113,10 @@
 				if(ecl.extraInfo!=""){
 					td.title=td.title+","+ecl.extraInfo;
 				}
+				//highlight today
+				if(d3.getFullYear()==today.getFullYear() && (d3.getMonth()+1)==(today.getMonth()+1) && d3.getDate() == today.getDate()){
+					td.style.border = "2px solid darkred";
+				}
 			}
 			for(var i=d3.getDay();i<6;i++){
 				tr.insertCell();
@@ -145,6 +150,57 @@
 			window.scrollTo(0,0);
 		}
 		</script>
+		<script>
+		//the following dates come from https://marvelous333.pixnet.net/blog/post/264439568
+		var hairCutMap = {
+		"初一":{isGoodForHairCut:false,comment:"折壽"},
+		"初二":{isGoodForHairCut:false,comment:"易招口舌訴訟"},
+		"初三":{isGoodForHairCut:true,comment:"發財、福氣"},
+		"初四":{isGoodForHairCut:true,comment:"皮膚光澤"},
+		"初五":{isGoodForHairCut:true,comment:"發財"},
+		"初六":{isGoodForHairCut:true,comment:"增智"},
+		"初七":{isGoodForHairCut:false,comment:"招官司、口角、矛盾"},
+		"初八":{isGoodForHairCut:true,comment:"長壽"},
+		"初九":{isGoodForHairCut:true,comment:"桃花運"},
+		"初十":{isGoodForHairCut:true,comment:"大福分"},
+		"十一":{isGoodForHairCut:true,comment:"聰明"},
+		"十二":{isGoodForHairCut:false,comment:"多病"},
+		"十三":{isGoodForHairCut:true,comment:"聰明、因緣好"},
+		"十四":{isGoodForHairCut:true,comment:"心想事成"},
+		"十五":{isGoodForHairCut:true,comment:"吉祥"},
+		"十六":{isGoodForHairCut:false,comment:"做事易失敗"},
+		"十七":{isGoodForHairCut:false,comment:"皮膚黑"},
+		"十八":{isGoodForHairCut:false,comment:"敗財"},
+		"十九":{isGoodForHairCut:true,comment:"增壽"},
+		"二十":{isGoodForHairCut:true,comment:"漂亮、挨餓"},
+		"廿一":{isGoodForHairCut:false,comment:"增病"},
+		"廿二":{isGoodForHairCut:true,comment:"增財"},
+		"廿三":{isGoodForHairCut:true,comment:"增條件"},
+		"廿四":{isGoodForHairCut:false,comment:"慢性傳染病"},
+		"廿五":{isGoodForHairCut:false,comment:"眼病、眼睛差"},
+		"廿六":{isGoodForHairCut:true,comment:"增快樂"},
+		"廿七":{isGoodForHairCut:true,comment:"易歡喜"},
+		"廿八":{isGoodForHairCut:false,comment:"易來矛盾"},
+		"廿九":{isGoodForHairCut:false,comment:"一月內死"},
+		"三十":{isGoodForHairCut:false,comment:"易招亡魂擾害"}
+		}
+
+		function showGoodHairCutDays(){
+			document.querySelectorAll("table td[title]").forEach((ele, index) => {
+				
+				var clone = ele.querySelector("div:nth-child(2)").cloneNode(true);
+				var monthText = clone.querySelector("b");
+				if(monthText){
+					monthText.parentNode.removeChild(monthText);	//去除月份的文字
+				}
+				var dateKey = clone.innerText.replace("闰", "").trim();
+				
+				if(hairCutMap[dateKey].isGoodForHairCut){
+					ele.style.backgroundColor = "#95e595";
+				}
+			});
+		}
+		</script>
 	</head>
 	<body onkeyup="changeDate(event.keyCode)">
 		<br>
@@ -171,6 +227,7 @@
 		</p>		<p>本页面提供1951年1月8日到2051年1月12日之间的公历藏历对照查询。</p>
 		<p>藏历数据来源于《藏历、公历、农历对照百年历书（1951-2050）》</p>
 		<p>日月食数据来自nasa，并从UTC时间转换到北京时间计算日期。由于地球上不通位置看到的初亏复圆的时间会不同，<br>nasa没有提供初亏复圆时间。本站根据网传数据补齐了部分数据，时间可能存在误差。</p>
+		<button type="button" onclick="showGoodHairCutDays()">显示吉祥理发日</button>
 
 		<p>本页面和数据开源于 https://github.com/stonelf/zangli ，欢迎下载使用。</p>
 		<noscript>
