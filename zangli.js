@@ -270,9 +270,9 @@ function getEclipse(date){
 			result.extraInfo2="";
 			if( e.length>2){
 				result.extraInfo2=result.extraInfo;
-				d=new Date(e[2]+ms_8hr);
+				d=new Date(e[2]+28800000);
 				result.extraInfo="初亏"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
-				d=new Date(e[3]+ms_8hr);
+				d=new Date(e[3]+28800000);
 				result.extraInfo+="，复圆"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
 			}
 	}
