@@ -195,8 +195,20 @@
 				}
 				var dateKey = clone.innerText.replace("闰", "").trim();
 				
-				if(hairCutMap[dateKey].isGoodForHairCut){
-					ele.style.backgroundColor = "#95e595";
+				if(!ele.querySelector(".hair-cut-desc")){
+					var desc = document.createElement("div");
+					desc.className = "center wide hair-cut-desc";
+					desc.innerText = hairCutMap[dateKey].comment;
+
+					if(hairCutMap[dateKey].isGoodForHairCut){
+						desc.style.color = "rgb(45 110 50)";
+						ele.style.backgroundColor = "rgb(227 249 227)";
+					} else {
+						desc.style.color = "#891c16";
+						ele.style.backgroundColor = "rgb(249 227 227)";
+					}
+
+					ele.append(desc);
 				}
 			});
 		}
