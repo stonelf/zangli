@@ -1,172 +1,139 @@
 //index.js
 const app = (typeof getApp === 'function') ? getApp() : { globalData: {} }
-var touchDot,touchMove,touchTime;
-wx.reportMonitor('0', 1);
+
+var minY = startDate.getFullYear(), minM = startDate.getMonth();
+var maxY = endDate.getFullYear(), maxM = endDate.getMonth();
+
 if (typeof Page === 'function') Page({
   data: {
-    currentMonth:"",
-    currentDate:"",
-    tibetenMonth:"",
-    zangliData: [],
-    arrowup: "-1.25",
-    arrowdown: "arrow-hide"
+    pages: [],        // [prevDoc, curDoc, nextDoc]
+    swiperIndex: 1,
+    curLabel: "",
+    curYmd: "",       // picker 用（当月首日 YYYY-MM-DD）
+    todayLabel: "今天",
+    canPrev: true,
+    canNext: true,
+    pickStart: "1951-01-08",
+    pickEnd: "2051-01-12"
   },
+  curY: 0,
+  curM: 0,
   onLoad: function () {
-    var data= getZangliData();
-    this.setData(data);
+    var n = new Date();
+    var y = n.getFullYear(), m = n.getMonth();
+    this.curY = y; this.curM = m;
+    this.render();
   },
-  // 触摸开始事件 
-  touchStart: function (e) {
-    touchDot = {
-      x: e.touches[0].pageX, 
-      y: e.touches[0].pageY
-      }; // 获取触摸时的原点 
-    touchTime= new Date();
+  // 约束在当前数据范围内
+  clampYM: function (y, m) {
+    if (y < minY || (y === minY && m < minM)) { return [minY, minM]; }
+    if (y > maxY || (y === maxY && m > maxM)) { return [maxY, maxM]; }
+    return [y, m];
   },
-  // 触摸移动事件 
-  touchMove: function (e) {
-    touchMove = {
-      x: e.touches[0].pageX,
-      y: e.touches[0].pageY
-    };
-    var y = touchDot.y - touchMove.y;
-    if (y<=0 &&  y >= -50) {
-      var d = this.data;
-      d.arrowup = -1.25-y/40;
-      this.setData(d);
-    } else if (y < -50) {
-      var d = this.data;
-      d.arrowup = 0;
-      this.setData(d);
-    }else if (y > 50) {
-      var d = this.data;
-      d.arrowdown = "arrow-show";
-      this.setData(d);
-    } else if (Math.abs(y) <= 50) {
-      var d = this.data;
-      d.arrowup="-1.25";
-      d.arrowdown = "arrow-hide";
-      this.setData(d);
+  pad2: function (n) { return n < 10 ? ("0" + n) : ("" + n); },
+  // 生成某月页面文档
+  buildDoc: function (y, m) {
+    var d0 = new Date(y, m, 1);
+    var d1 = new Date(y, m + 1, 0);
+    if (d0 < startDate) d0 = startDate;
+    if (d1 > endDate) d1 = endDate;
+    var td0 = getZangli(d0), td1 = getZangli(d1);
+    var label = y + "年" + (m + 1) + "月";
+    var tib = td0.year + "年" + td0.month + "月 到 " +
+      (td0.year === td1.year ? "" : td1.year + "年") + td1.month + "月";
+    var rows = [[]];
+    for (var i = 0; i < d0.getDay(); i++) {
+      rows[0].push({ cls: "td blank", top: "", sub: "", main: "" });
     }
-  },
-  // 触摸结束事件 
-  touchEnd: function (e) {
-    if (!touchMove) return;
-    if((new Date()-touchTime)>100 &&  Math.abs(touchDot.y-touchMove.y)>50){
-
-      if(touchDot.y>touchMove.y){
-        this.nextMonth();
-      }else{
-        this.previousMonth();
+    var extra = [];
+    var todayY = new Date().getFullYear(), todayM = new Date().getMonth(), todayD = new Date().getDate();
+    for (var i = d0.getDate(); i <= d1.getDate(); i++) {
+      var d3 = new Date(y, m, i);
+      if (d3.getDay() === 0) rows.push([]);
+      var z = getZangli(d3);
+      var ecl = getEclipse(d3);
+      var isMonthStart = (i === d0.getDate()) || z.day === "初一" || (z.day === "初二" && z.dayMiss);
+      var top = "";
+      if (z.month === "正" && !z.monthLeap && z.day === "初一") {
+        top = z.year + "年";
+      } else {
+        top = "" + i;
       }
-      touchMove=null;
-    }else{
-      var d = this.data;
-      d.arrowup = "-1.25";
-      d.arrowdown = "arrow-hide";
-      this.setData(d);
+      var sub = "";
+      if (ecl.value !== "") {
+        sub = ecl.value;
+      } else if (isMonthStart) {
+        sub = z.month + "月";
+      }
+      var isToday = (y === todayY && m === todayM && i === todayD);
+      var cellCls = "td";
+      if (ecl.value !== "") {
+        cellCls = /日/.test(ecl.value) ? "td solar-eclipse" : "td lunar-eclipse";
+        extra.push(y + "年" + (m + 1) + "月" + i + "日 " + ecl.value + "，" + ecl.extraInfo);
+      } else if (isToday) {
+        cellCls = "td today";
+      }
+      rows[rows.length - 1].push({
+        cls: cellCls,
+        top: top,
+        sub: sub,
+        main: z.day
+      });
     }
-  }, 
-  previousMonth: function(){
-    var d=new Date(this.data.currentDate);
-    d.setMonth(d.getMonth()-1);
-    // 不能早于数据起始月（1951-01）。原先硬编码 1951/2/1，会漏掉 1951 年 1 月
-    if(d >= new Date(startDate.getFullYear(), startDate.getMonth(), 1)){
-      this.setData(getZangliData(d));
+    // 补齐最后一周
+    var last = rows[rows.length - 1];
+    while (last.length < 7) {
+      last.push({ cls: "td blank", top: "", sub: "", main: "" });
     }
+    return {
+      label: label,
+      tib: tib,
+      rows: rows,
+      extra: extra.join("\n"),
+      ymd: y + "-" + this.pad2(m + 1) + "-01"
+    };
   },
- nextMonth: function() {
-   var d = new Date(this.data.currentDate);
-   d.setMonth(d.getMonth() + 1);
-   // 不能晚于数据截止月（2051-02）。原先硬编码 2051/1/12，会少掉藏历铁马年十二月整整一个月
-   if (d <= new Date(endDate.getFullYear(), endDate.getMonth(), 1)){
-     this.setData(getZangliData(d));
-   }
- },
-  datePickerBindchange:function(e){
-    var d = new Date(e.detail.value);
-    this.setData(getZangliData(d));
+  render: function () {
+    var self = this;
+    var cy = this.curY, cm = this.curM;
+    var prev = this.clampYM(cy, cm - 1);
+    var next = this.clampYM(cy, cm + 1);
+    var prevDoc = this.buildDoc(prev[0], prev[1]);
+    var curDoc = this.buildDoc(cy, cm);
+    var nextDoc = this.buildDoc(next[0], next[1]);
+    this.setData({
+      pages: [prevDoc, curDoc, nextDoc],
+      swiperIndex: 1,
+      curLabel: curDoc.label,
+      curYmd: curDoc.ymd,
+      canPrev: !(cy === minY && cm === minM),
+      canNext: !(cy === maxY && cm === maxM)
+    });
+  },
+  goTo: function (y, m) {
+    var r = this.clampYM(y, m);
+    if (r[0] === this.curY && r[1] === this.curM) return;
+    this.curY = r[0]; this.curM = r[1];
+    this.render();
+  },
+  shift: function (delta) { this.goTo(this.curY, this.curM + delta); },
+  prevMonth: function () { this.shift(-1); },
+  nextMonth: function () { this.shift(1); },
+  today: function () {
+    var n = new Date();
+    this.goTo(n.getFullYear(), n.getMonth());
+  },
+  // swiper 滑动切月：越过中页则前进/后退并重新居中
+  onSwiperChange: function (e) {
+    var idx = e.detail.current;
+    if (idx === 1) return;
+    this.shift(idx > 1 ? 1 : -1);
+  },
+  datePickerBindchange: function (e) {
+    var p = String(e.detail.value || "").split("-");
+    if (p.length === 3) this.goTo(parseInt(p[0], 10), parseInt(p[1], 10) - 1);
   }
 })
-var cache={};
-function getZangliData(d) {
-  wx.reportMonitor('1', 1);
-  if (!d) d = new Date();
-  if(cache[d.getFullYear()+"/"+d.getMonth()]){
-    console.log("cached!")
-    return cache[d.getFullYear() + "/" + d.getMonth()];
-  } 
-  var result = {extraInfo:[]};
-  var d0 = new Date(d.getFullYear(), d.getMonth(), 1),//月初
-  d1 = new Date(d.getFullYear(), d.getMonth() + 1, 0)//月末
-  if (d0 < startDate) d0 = startDate;
-  if (d1 > endDate) d1 = endDate;
-  result.currentMonth = d0.getFullYear() + "年" + (d0.getMonth() + 1) + "月";
-  var td0=getZangli(d0),td1=getZangli(d1);
-  result.currentDate = d0;
-
-  result.tibetenMonth = td0.year+"年"+td0.month +"月 到 "+(td0.year==td1.year?"":td1.year+"年")+td1.month+"月";
-  result.zangliData=[[]];
-  for (var i = 0; i < d0.getDay(); i++) {
-    result.zangliData[0].push({ year: "　", month: "", date: "　",class:"td"},);
-  }
-
-  for (var i = d0.getDate(); i <= d1.getDate(); i++) {
-    var d3 = new Date(d.getFullYear(), d.getMonth(), i);
-    if (d3.getDay() == 0) {
-      result.zangliData.push([]);
-    }
-    var z = getZangli(d3);
-    var ecl = getEclipse(d3);
-    var isToday = d3.getFullYear()==new Date().getFullYear() &&d3.getMonth()==new Date().getMonth() &&d3.getDate()==new Date().getDate();
-    var t = { year: "　", month: "", date: z.day,day:i};
-    if (i == d0.getDate() || z.day == "初一" || (z.day == "初二" && z.dayMiss)) {
-      t.month= z.month+"月";
-    }
-    if (z.month == '正' && !z.monthLeap && z.day == "初一" || (z.day == "初二" && z.dayMiss)){
-      t.year=z.year+"年";
-    }else if(z.value!="error"){
-      t.year=i;
-    }
-    t.class="td";
-    if (ecl.value != "") {
-      t.month=ecl.value;
-      result.extraInfo.push(
-        d3.getFullYear() + "年" + (d3.getMonth() + 1) + "月" + d3.getDate() + "日 "+ecl.value+"，"+
-        ecl.extraInfo
-        );
-      t.class=/日/.test(ecl.value)?"td solar-eclipse":"td lunar-eclipse";
-    }else{
-      if(isToday)
-        t.class="td today"
-    }
-    result.zangliData[result.zangliData.length - 1].push(t);
-  }
-  for (var i = d3.getDay(); i < 6; i++) {
-    result.zangliData[result.zangliData.length-1].push({ year: "　", month: "", date: "　",class:"td"});
-  }
-  
-  result.extraInfo = result.extraInfo.join("\n");
-  result.arrowdown= "arrow-hide";
-  result.arrowup="-1.25";
-  cache[d.getFullYear() + "/" + d.getMonth()]=result;
-  return result;
-}
-function checkLine(t){
-  if (t) {
-    var m = false;
-    for (var j = 0; j < t.length; j++) {
-      if (t[j].month.length > 0) m = true;
-    }
-    if (m) {
-      for (var j = 0; j < t.length; j++) {
-        if (t[j].month.length == 0) t[j].month = " ";
-      }
-    }
-  }
-
-
-}
 /*!
  * zangli - v1.0 - 2019-01-29
  * Copyright Stone Huang and other contributors

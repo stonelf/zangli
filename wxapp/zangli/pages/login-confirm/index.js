@@ -9,9 +9,12 @@ Page({
     msg: '',
     om: '',
     isSa: false,
+    nicknameInput: '',
     count: QR_TTL,
     canConfirm: false
   },
+
+  onNickInput(e) { this.setData({ nicknameInput: e.detail.value || '' }); },
 
   ticket: '',
   mToken: '',
@@ -75,6 +78,7 @@ Page({
               phase: 'authed',
               om: d.openid_masked || '',
               isSa: !!d.is_sa,
+              nicknameInput: d.nickname || '',
               canConfirm: true
             });
           })
@@ -87,7 +91,8 @@ Page({
   onConfirm() {
     if (!this.data.canConfirm) return;
     this.setData({ canConfirm: false });
-    this.request('/api/auth/qr/confirm', { ticket: this.ticket, token: this.mToken })
+    const nickname = (this.data.nicknameInput || '').trim().slice(0, 40);
+    this.request('/api/auth/qr/confirm', { ticket: this.ticket, token: this.mToken, nickname })
       .then(() => {
         this.stopCountdown();
         this.setData({ phase: 'done' });

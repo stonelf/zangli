@@ -1,47 +1,56 @@
 <!--index.wxml-->
-<view>
-  <text style="margin-top:{{ arrowup }}em;text-align:center;display:block">⇧</text>
-  <view class="container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
-
-    <view>
-      <picker mode="date" value="{{dateValue}}" start="1951-01-08" end="2051-01-12" bindchange="datePickerBindchange">
-        {{ currentMonth }}
+<view class="page">
+  <!-- 头部：年月 + 切换 -->
+  <view class="head">
+    <view class="head-nav">
+      <button class="arrow" hover-class="none" bindtap="prevMonth" disabled="{{!canPrev}}">‹</button>
+      <picker mode="date" value="{{curYmd}}" start="{{pickStart}}" end="{{pickEnd}}" bindchange="datePickerBindchange">
+        <view class="head-label">
+          <text class="ym">{{curLabel}}</text>
+          <text class="caret">▾</text>
+        </view>
       </picker>
+      <button class="arrow" hover-class="none" bindtap="nextMonth" disabled="{{!canNext}}">›</button>
     </view>
-    <view>
-      <text class='lager'>藏历 {{ tibetenMonth }}</text>
-    </view>
-    <view class="table">
-      <view class="tr">
-        <view class="th ">周日</view>
-        <view class="th">周一</view>
-        <view class="th">周二</view>
-        <view class="th">周三</view>
-        <view class="th">周四</view>
-        <view class="th">周五</view>
-        <view class="th">周六</view>
-      </view>
+    <view class="head-today" bindtap="today">{{todayLabel}}</view>
+  </view>
 
-      <block wx:for="{{zangliData}}" wx:for-index="line" wx:key="this">
-        <view class="tr">
-          <view wx:for="{{zangliData[line]}}" wx:for-index="col" wx:for-item="item" class="{{item.class}}" wx:key="this">
-
-            <text wx:if="{{item.year.length>1}}" class="highlight small">{{item.year}}</text>
-            <text wx:else class="day">{{item.day}}\n</text>
-            <text class="normal highlight" wx:if="{{item.month.length==2}}">{{item.month}}</text>
-            <text class="small highlight" wx:if="{{item.month.length==3}}">{{item.month}}</text>
-            <text class="smaller highlight" wx:if="{{item.month.length==4}}">{{item.month}}</text>
-            <text wx:if="{{item.date.length==2}}" class="lager">{{item.date}}</text>
-            <text wx:else class="small">{{item.date}}</text>
-
+  <!-- 月份滑动视图 -->
+  <swiper class="cal-swiper" current="{{swiperIndex}}" duration="220"
+          bindchange="onSwiperChange" circular="{{false}}">
+    <block wx:for="{{pages}}" wx:key="label" wx:for-item="pg">
+      <swiper-item>
+        <view class="month-card">
+          <view class="tib">{{pg.tib}}</view>
+          <view class="table">
+            <view class="tr head">
+              <view class="th">日</view>
+              <view class="th">一</view>
+              <view class="th">二</view>
+              <view class="th">三</view>
+              <view class="th">四</view>
+              <view class="th">五</view>
+              <view class="th">六</view>
+            </view>
+            <block wx:for="{{pg.rows}}" wx:for-item="row">
+              <view class="tr">
+                <view wx:for="{{row}}" wx:for-item="cell" wx:key="index" class="{{cell.cls}}">
+                  <text class="top">{{cell.top}}</text>
+                  <text class="sub">{{cell.sub}}</text>
+                  <text class="main">{{cell.main}}</text>
+                </view>
+              </view>
+            </block>
           </view>
         </view>
-      </block>
-      <view>
-        <text>{{extraInfo}}</text>
-      </view>
-      <text>向上向下拉动页面，或者点击顶部阳历日期，可以切换年份和月份。</text>
-    </view>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 本月要事 -->
+  <view class="events" wx:if="{{pages.length && pages[1].extra}}">
+    <text class="events-title">本月要事</text>
+    <text class="events-body">{{pages[1].extra}}</text>
   </view>
-  <text class="{{ arrowdown }}">⇩</text>
+  <view class="tip">左右滑动切换月份 · 或点顶部 ‹ ›</view>
 </view>

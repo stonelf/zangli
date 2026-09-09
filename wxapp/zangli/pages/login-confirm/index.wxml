@@ -12,6 +12,10 @@
     <block wx:elif="{{phase === 'authed'}}">
       <view class="title">确认登录电脑端</view>
       <view class="sub">将以账号 <text class="om">{{om}}</text>{{isSa ? '（超管）' : ''}} 登录</view>
+      <view class="nick-wrap">
+        <input class="nick-input" type="nickname" placeholder="昵称（可选，便于后台识别）"
+               value="{{nicknameInput}}" bindinput="onNickInput" maxlength="40" />
+      </view>
       <view class="count">剩余 {{count}} 秒</view>
       <view class="btn-row">
         <button class="btn primary" bindtap="onConfirm">确认登录</button>

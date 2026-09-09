@@ -26,6 +26,14 @@
 .sub { font-size: 26rpx; color: #8a877d; line-height: 1.7; }
 .om { color: #9a7207; }
 .count { font-size: 24rpx; color: #b8860b; margin: 18rpx 0 8rpx; }
+.nick-wrap { margin-top: 18rpx; }
+.nick-input {
+  border: 1rpx solid #e6e0d0;
+  border-radius: 12rpx;
+  padding: 14rpx 20rpx;
+  font-size: 28rpx;
+  background: #faf8f2;
+}
 .msg { font-size: 26rpx; color: #8a877d; line-height: 1.8; }
 .loading { font-size: 28rpx; color: #8a877d; }
 .ok { font-size: 40rpx; color: #4c8a4f; margin: 10rpx 0; }

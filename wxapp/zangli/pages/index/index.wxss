@@ -1,81 +1,161 @@
-/**index.wxss**/
-
 page {
-  background: #8b0000;
+  background: #faf7f0;
+}
+.page {
+  padding: 24rpx 20rpx 40rpx;
+  box-sizing: border-box;
+}
+
+/* 头部 */
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 12rpx 16rpx;
+  box-shadow: 0 6rpx 24rpx rgba(120, 90, 20, .07);
+}
+.head-nav {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  flex: 1;
+}
+.arrow {
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  padding: 0;
+  margin: 0;
+  background: #f6efe0;
+  color: #b8860b;
+  font-size: 44rpx;
+  border-radius: 16rpx;
+}
+.arrow::after { border: none; }
+.arrow[disabled] { color: #d9d2c2; background: #f3f0e8; }
+.head-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+.head-label .ym { font-size: 32rpx; font-weight: 600; color: #6b5b2f; }
+.caret { font-size: 22rpx; color: #b8860b; }
+.head-today {
+  font-size: 24rpx;
+  color: #b8860b;
+  border: 1rpx solid #e3c983;
+  border-radius: 28rpx;
+  padding: 8rpx 22rpx;
+}
+
+/* 滑动区高度：6 行日期的量，防止整页滚动干扰 */
+.cal-swiper {
+  height: 640rpx;
+  margin-top: 20rpx;
+}
+.month-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 16rpx 12rpx 20rpx;
+  box-shadow: 0 6rpx 24rpx rgba(120, 90, 20, .07);
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+}
+.tib {
+  text-align: center;
+  color: #8a6d2f;
+  font-size: 24rpx;
+  margin-bottom: 10rpx;
 }
 
-picker,text{
-  color:white;
-}
-picker{
-  font-size:1.5rem;
-}
-.table {
-  width:95%;
-}
+/* 日历表 */
+.table { flex: 1; }
 .tr {
-  width: 100%;
   display: flex;
-  border-left: 1px solid white;
-  border-bottom: 1px solid white;
-
 }
-.td {
-    width:14.25%;
-    justify-content: center;
-    text-align: center;
-    border-right: 1px solid white;
-    color:white;
-}
-.lunar-eclipse{
-  background-color: rgb(157, 31, 185)
-}
-.solar-eclipse{
-  background-color: rgb(207, 23, 192)
-}
-.today{
-  background-color: rgb(80, 80, 192)
-}
-.bg-w{
-  background: snow;
-}
-.bg-g{
-  background: #E6F3F9;
+.tr.head .th {
+  color: #a99c85;
+  font-weight: 500;
 }
 .th {
-  width: 14.25%;
-  justify-content: center;
-  background: #8b0000;
-  color: #fff;
-  display: flex;
-  height: 3rem;
-  align-items: center;
-  border-top: 1px solid white;
-  border-right: 1px solid rgb(255, 255, 255);
-  border-bottom: 1px solid white;
-}
-
-.small{
-  font-size:0.85rem;
-}
-.smaller{
-  font-size:0.6rem;
-}
-.normal{
-  font-size:0.9rem;
-}
-.highlight{
-  color:bisque;
-}
-.day{font-size:1.3rem}
-.lager{font-size:1.1rem}
-.arrow-hide {
-  display: none;
-}
-.arrow-show{
-  display:block;
+  flex: 1;
   text-align: center;
+  font-size: 22rpx;
+  line-height: 2.2;
+}
+.td {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: 12rpx;
+  margin: 2rpx;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.td.blank { visibility: hidden; }
+.td .top {
+  font-size: 18rpx;
+  color: #b3ab9a;
+  line-height: 1.2;
+  height: 22rpx;
+}
+.td .sub {
+  font-size: 18rpx;
+  color: #c0392b;
+  line-height: 1.2;
+  height: 22rpx;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.td .main {
+  font-size: 26rpx;
+  color: #3a3a35;
+  line-height: 1.4;
+}
+.td.today {
+  background: #b8860b;
+  border-radius: 14rpx;
+}
+.td.today .top, .td.today .sub, .td.today .main { color: #fff; }
+.td.today .sub { color: #ffe9a8; }
+.td.solar-eclipse { background: #fdeaea; }
+.td.lunar-eclipse { background: #eef2fb; }
+.td.solar-eclipse .main, .td.lunar-eclipse .main { color: #7a2e1d; }
+
+/* 要事与提示 */
+.events {
+  margin-top: 20rpx;
+  background: #fff7e6;
+  border: 1rpx solid #eedcb3;
+  border-radius: 20rpx;
+  padding: 18rpx 24rpx;
+}
+.events-title {
+  font-size: 24rpx;
+  color: #b8860b;
+  display: block;
+  margin-bottom: 6rpx;
+}
+.events-body {
+  font-size: 22rpx;
+  color: #7a6a4a;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+.tip {
+  margin-top: 16rpx;
+  text-align: center;
+  color: #b3ab9a;
+  font-size: 22rpx;
 }
