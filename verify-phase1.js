@@ -13,14 +13,54 @@ const path = require("path");
 const ROOT = "/Users/stone/Projects/syncplay/zangli";
 
 function loadMain() {
-  const src = fs.readFileSync(path.join(ROOT, "zangli.js"), "utf8");
-  return new Function("console", src + "\nreturn {getZangli, getEclipse};")({ error() {}, warn() {}, log() {} });
+  // zangli.js 是 UMD，Node 端走 module.exports 分支
+  delete require.cache[require.resolve("./zangli.js")];
+  return require("./zangli.js");
 }
 
 function loadWx() {
-  const wxPre = "var wx={reportMonitor(){},getSystemInfoSync(){return{}},cloud:{init(){}}},Page=function(){},App=function(){},getApp=function(){return{globalData:{}}};";
-  const src = fs.readFileSync(path.join(ROOT, "wxapp/zangli/pages/index/index.js"), "utf8");
-  return new Function("console", wxPre + src + "\nreturn {getZangli, getEclipse};")({ error() {}, warn() {}, log() {} });
+  // 期二：主库 / 小程序 / 测试三方共用 wxapp/zangli/data/ 同一份数据。
+  // 加载小程序算法的方式：用 vm 沙箱注入 require/getApp/Page/wx mock
+  // 让 pages/index/index.js 跑起来。
+  const fs2 = require("fs");
+  const vm = require("vm");
+  const wxPath = path.join(ROOT, "wxapp/zangli/pages/index/index.js");
+  const src = fs2.readFileSync(wxPath, "utf8");
+  const ctx = {
+    console: { error() {}, warn() {}, log() {} },
+    Date, Object, Array, Math, JSON, Number, String, Boolean, RegExp, Error,
+    require: (id) => {
+      // 把 '../data/xxx' 解析为绝对路径
+      const abs = id.startsWith(".")
+        ? path.resolve(path.dirname(wxPath), id)
+        : id;
+      delete require.cache[abs];
+      return require(abs);
+    },
+    getApp: () => ({ globalData: {} }),
+    Page: function () {},
+    App: function () {},
+    wx: {
+      reportMonitor() {},
+      getSystemInfoSync() { return {}; },
+      cloud: { init() {} },
+      vibrateLong() {},
+      vibrateShort() {},
+      navigateBack() {},
+      navigateTo() {},
+      showToast() {},
+      showModal() {},
+      hideLoading() {},
+      showLoading() {},
+      setStorageSync() {},
+      getStorageSync() { return ""; },
+      removeStorageSync() {},
+    },
+  };
+  ctx.global = ctx;  // 兼容 globalThis
+  vm.createContext(ctx);
+  vm.runInContext(src, ctx);
+  return { getZangli: ctx.getZangli, getEclipse: ctx.getEclipse };
 }
 
 const ANCHORS = [
