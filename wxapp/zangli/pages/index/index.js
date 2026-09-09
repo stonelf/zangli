@@ -1,9 +1,6 @@
 //index.js
 const app = (typeof getApp === 'function') ? getApp() : { globalData: {} }
 
-var minY = startDate.getFullYear(), minM = startDate.getMonth();
-var maxY = endDate.getFullYear(), maxM = endDate.getMonth();
-
 if (typeof Page === 'function') Page({
   data: {
     pages: [],        // [prevDoc, curDoc, nextDoc]
@@ -155,6 +152,8 @@ var _el = require('../../data/eclipse-list');
 var specialDays = _sd.specialDays;
 var startDate = new Date(_sd.startDate);
 var endDate = new Date(_sd.endDate);
+var minY = startDate.getFullYear(), minM = startDate.getMonth();
+var maxY = endDate.getFullYear(), maxM = endDate.getMonth();
 /*方法说明
  *@method getZangli
  *@param{String,Date,Number}p 可以转换成标准日期的入参
