@@ -15,7 +15,7 @@
 (function (global, factory) {
   "use strict";
   if (typeof module === "object" && module.exports) {
-    var el = require("./wxapp/zangli/data/eclipse-list");
+    var el = require("./data/eclipse-list");
     module.exports = factory(el);
   } else {
     var data = global.ZANGLI_DATA || {};

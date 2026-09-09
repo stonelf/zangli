@@ -5,8 +5,8 @@
  * 本项目提供1951年1月8日到2051年2月11日之间到公历藏历对照查询。数据来源于《藏历、公历、农历对照百年历书（1951-2050）》
  *
  * 期二重构（2026-09-09）：数据/算法分离
- *   - 缺日闰日表（specialDays）移至 wxapp/zangli/data/special-days.js
- *   - 日月食数据（eclipseList）移至 wxapp/zangli/data/eclipse-list.js
+ *   - 缺日闰日表（specialDays）移至 data/special-days.js（根 data/ 为软链 → wxapp/zangli/data/）
+ *   - 日月食数据（eclipseList）移至 data/eclipse-list.js
  *   - 本文件仅保留算法 + UMD 外壳
  */
 
@@ -37,8 +37,8 @@
   "use strict";
   if (typeof module === "object" && module.exports) {
     // Node / npm 包 / 测试
-    var sd = require("./wxapp/zangli/data/special-days");
-    var el = require("./wxapp/zangli/data/eclipse-list");
+    var sd = require("./data/special-days");
+    var el = require("./data/eclipse-list");
     module.exports = factory(sd, el);
   } else {
     // 浏览器：数据已先于本文件被 <script defer> 加载到 window.ZANGLI_DATA

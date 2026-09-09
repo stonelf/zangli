@@ -1,0 +1,40 @@
+{
+  "name": "zangli",
+  "version": "0.2.0",
+  "description": "公历 ↔ 藏历对照查询 + 日月食查询。数据范围 1951-01-08 ~ 2051-02-11。UMD，Node / 浏览器 / 微信小程序通用。",
+  "main": "zangli.js",
+  "types": "index.d.ts",
+  "files": [
+    "zangli.js",
+    "eclipse.js",
+    "data/",
+    "index.d.ts",
+    "LICENSE.md",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node test/run.js",
+    "test:tz": "for tz in Asia/Shanghai UTC America/New_York; do echo \"=== TZ=$tz ===\"; TZ=$tz node test/run.js; done"
+  },
+  "keywords": [
+    "tibetan-calendar",
+    "zangli",
+    "藏历",
+    "calendar",
+    "eclipse",
+    "lunar"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "license": "MIT",
+  "author": "Stone Huang <https://github.com/stonelf>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stonelf/zangli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stonelf/zangli/issues"
+  },
+  "homepage": "http://www.zangli.pro"
+}
