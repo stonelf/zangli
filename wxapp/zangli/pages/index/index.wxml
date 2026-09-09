@@ -37,7 +37,7 @@
                 <view wx:for="{{row}}" wx:for-item="cell" wx:key="index" class="{{cell.cls}}">
                   <text class="top">{{cell.top}}</text>
                   <text class="sub">{{cell.sub}}</text>
-                  <text class="main">{{cell.main}}</text>
+                  <text class="main {{cell.mainBig ? '' : 'small'}}">{{cell.main}}</text>
                 </view>
               </view>
             </block>

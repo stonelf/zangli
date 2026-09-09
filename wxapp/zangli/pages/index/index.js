@@ -74,7 +74,8 @@ if (typeof Page === 'function') Page({
         cls: cellCls,
         top: top,
         sub: sub,
-        main: z.day
+        main: z.day,
+        mainBig: !!(z.day && z.day.length <= 2)
       });
     }
     // 补齐最后一周

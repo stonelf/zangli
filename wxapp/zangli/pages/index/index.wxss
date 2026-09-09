@@ -111,6 +111,11 @@ page {
   max-width: 100%;
   overflow: hidden;
 }
+.td .main.small {
+  font-size: 22rpx;
+  line-height: 1.3;
+  white-space: nowrap;
+}
 .td.today {
   background: #b8860b;
   border-radius: 16rpx;
