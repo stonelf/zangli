@@ -184,12 +184,15 @@ page {
 .page.horizontal .caret { font-size: 13px; }
 .page.horizontal .head-today { font-size: 13px; padding: 3px 12px; border-radius: 20px; }
 .page.horizontal .cal-swiper { margin-top: 6px; }
-.page.horizontal .month-card { padding: 3px 5px; border-radius: 14px; }
-.page.horizontal .tib { font-size: 13px; margin-bottom: 2px; }
-.page.horizontal .th { font-size: 11px; line-height: 2; }
-.page.horizontal .td { margin: 1px; border-radius: 8px; }
+.page.horizontal .month-card { padding: 5px; border-radius: 12px; }
+.page.horizontal .tib { font-size: 13px; margin-bottom: 2px; height: 16px; line-height: 16px; }
+.page.horizontal .table { display: block; }
+.page.horizontal .tr { flex: none; display: flex; }
+.page.horizontal .tr.head { height: 18px; }
+.page.horizontal .th { font-size: 11px; line-height: 18px; height: 18px; align-self: center; }
+.page.horizontal .td { height: auto; margin: 1px; border-radius: 8px; box-sizing: border-box; overflow: hidden; }
 .page.horizontal .td .top { font-size: 10px; height: 13px; line-height: 1.2; }
 .page.horizontal .td .sub { font-size: 10px; height: 13px; line-height: 1.2; }
-.page.horizontal .td .main { font-size: 19px; line-height: 1.25; }
+.page.horizontal .td .main { font-size: 19px; line-height: 1.2; }
 .page.horizontal .events,
 .page.horizontal .tip { display: none; }

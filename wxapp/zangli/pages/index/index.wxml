@@ -34,8 +34,8 @@
               <view class="th">五</view>
               <view class="th">六</view>
             </view>
-            <block wx:for="{{pg.rows}}" wx:for-item="row">
-              <view class="tr">
+            <block wx:for="{{pg.rows}}" wx:for-item="row" wx:for-index="ri">
+              <view class="tr" style="{{orient === 'horizontal' && rowH ? 'height:' + rowH + 'px' : ''}}">
                 <view wx:for="{{row}}" wx:for-item="cell" wx:key="index" class="{{cell.cls}}">
                   <text class="top">{{cell.top}}</text>
                   <text class="sub">{{cell.sub}}</text>
