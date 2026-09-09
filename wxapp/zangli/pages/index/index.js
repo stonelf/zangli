@@ -183,8 +183,8 @@ function checkLine(t){
  */
 
 /* 期二重构（2026-09-09）：数据从 wxapp/zangli/data/ 共享，wxapp/、主库、测试三方 require 同一份 */
-var _sd = require('../../../../data/special-days');
-var _el = require('../../../../data/eclipse-list');
+var _sd = require('../../data/special-days');
+var _el = require('../../data/eclipse-list');
 var specialDays = _sd.specialDays;
 var startDate = new Date(_sd.startDate);
 var endDate = new Date(_sd.endDate);
