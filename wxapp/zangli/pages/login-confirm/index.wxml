@@ -1,0 +1,31 @@
+<view class="wrap">
+  <view class="card">
+    <view class="logo">藏历</view>
+    <block wx:if="{{phase === 'bad'}}">
+      <view class="msg">请从电脑端打开「仪轨共修」并点击【扫码登录】，再使用本小程序扫码。</view>
+    </block>
+
+    <block wx:elif="{{phase === 'loading'}}">
+      <view class="loading">正在获取身份…</view>
+    </block>
+
+    <block wx:elif="{{phase === 'authed'}}">
+      <view class="title">确认登录电脑端</view>
+      <view class="sub">将以账号 <text class="om">{{om}}</text>{{isSa ? '（超管）' : ''}} 登录</view>
+      <view class="count">剩余 {{count}} 秒</view>
+      <view class="btn-row">
+        <button class="btn primary" bindtap="onConfirm">确认登录</button>
+        <button class="btn plain" bindtap="onCancel">取消</button>
+      </view>
+    </block>
+
+    <block wx:elif="{{phase === 'done'}}">
+      <view class="ok">✓ 登录成功</view>
+      <view class="sub">请回到电脑端继续操作</view>
+    </block>
+
+    <block wx:else>
+      <view class="msg">{{msg}}</view>
+    </block>
+  </view>
+</view>

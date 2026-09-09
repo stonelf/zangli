@@ -1,0 +1,41 @@
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #faf7f0;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+.card {
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 48rpx 40rpx;
+  box-shadow: 0 8rpx 40rpx rgba(120, 90, 20, .08);
+  box-sizing: border-box;
+  text-align: center;
+}
+.logo {
+  font-size: 48rpx;
+  color: #b8860b;
+  letter-spacing: 4rpx;
+  margin-bottom: 24rpx;
+}
+.title { font-size: 34rpx; color: #3a3a35; margin-bottom: 12rpx; }
+.sub { font-size: 26rpx; color: #8a877d; line-height: 1.7; }
+.om { color: #9a7207; }
+.count { font-size: 24rpx; color: #b8860b; margin: 18rpx 0 8rpx; }
+.msg { font-size: 26rpx; color: #8a877d; line-height: 1.8; }
+.loading { font-size: 28rpx; color: #8a877d; }
+.ok { font-size: 40rpx; color: #4c8a4f; margin: 10rpx 0; }
+.btn-row { display: flex; gap: 20rpx; margin-top: 28rpx; }
+.btn {
+  flex: 1;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+  line-height: 2.4;
+}
+.btn::after { border: none; }
+.btn.primary { background: #b8860b; color: #fff; }
+.btn.plain { background: #f1ece0; color: #6b5b2f; }

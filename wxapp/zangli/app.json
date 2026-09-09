@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/login-confirm/index",
     "pages/testWXgateway/index"
   ],
   "window": {
