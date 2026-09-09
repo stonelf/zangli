@@ -1,0 +1,40 @@
+.signin-notify {
+  width: auto;
+  display: flex;
+  margin: 32rpx auto 0;
+  padding: 8rpx 32rpx;
+  box-sizing: border-box;
+  background: var(--notify-color-bg--);
+  align-items: center;
+}
+
+.signin-notify .icon-notify {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  background-image: url(https://scene-module-9gee6idgabd997ca-1306328562.tcloudbaseapp.com/signIn/images/icon-notify.svg);
+  background-size: 100% 100%;
+}
+
+.signin-notify .signin-notify-text {
+  display: inline-block;
+  vertical-align: 0;
+  line-height: 16px;
+  margin-left: 8px;
+  color: var(--notify-color-text--);
+}
+
+.swiper_container {
+  height: 50rpx;
+  width: 100vw;
+  margin-left: 8rpx;
+}
+
+.swiper_item {
+  font-size: 30rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--notify-color-text--);
+}

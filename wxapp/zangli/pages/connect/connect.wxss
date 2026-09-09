@@ -1,0 +1,12 @@
+/* pages/connect/connect.wxss */
+button{
+  margin: 20rpx;
+  color: white;
+  border-radius: 98rpx; 
+  display: inline;
+}
+.btng {
+  background-color: green;
+}.btnr {
+  background-color: red;
+}

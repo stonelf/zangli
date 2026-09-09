@@ -1,0 +1,24 @@
+<!--pages/connect/connect.wxml-->
+<block wx:if="{{appName=='invalid_appid'}}">
+  <text>appId 格式错误</text>
+</block>
+<block wx:elif="{{appName=='unknow_app'}}">
+  <text>app未登记</text>
+</block>
+<block wx:elif="{{alradyConnect}}">
+  <text>{{appName}}</text>已经绑定了您的“百年藏历”账号
+  <view style="text-align: center;">
+  <button wx:if="{{alradyConnect}}" class="btng" bindtap="jumpback">跳回{{appName}}</button>
+  <button wx:if="{{alradyConnect}}" class="btnr" bindtap="disconnect">解绑{{appName}}</button>
+</view>
+</block>
+<block wx:elif="{{appName}}">
+  <text>{{appName}}</text>申请绑定您的“百年藏历”账号
+  <view style="text-align: center;">
+    <button class="btng" bindtap="acceptConnect">接受</button>
+    <button class="btnr" bindtap="reject">拒绝</button>
+</view>
+</block>
+<block wx:else>
+<text>loading……</text>
+</block>

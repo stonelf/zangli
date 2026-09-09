@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/testWXgateway/index",
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundColor": "#8b0000",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#8b0000",
+    "navigationBarTitleText": "百年藏历",
+    "navigationBarTextStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -36,6 +36,9 @@ picker{
 .solar-eclipse{
   background-color: rgb(207, 23, 192)
 }
+.today{
+  background-color: rgb(80, 80, 192)
+}
 .bg-w{
   background: snow;
 }

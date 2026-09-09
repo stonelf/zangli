@@ -1,10 +1,10 @@
 <!--index.wxml-->
-<view>
+<view bindlongpress='search'>
   <text style="margin-top:{{ arrowup }}em;text-align:center;display:block">⇧</text>
   <view class="container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
 
     <view>
-      <picker mode="date" value="{{dateValue}}" start="1951-02-07" end="2051-01-12" bindchange="datePickerBindchange">
+      <picker mode="date" value="{{dateValue}}" start="1951-01-08" end="2051-01-12" bindchange="datePickerBindchange">
         {{ currentMonth }}
       </picker>
     </view>
@@ -40,6 +40,7 @@
       <view>
         <text>{{extraInfo}}</text>
       </view>
+      <text>向上向下拉动页面，或者点击顶部阳历日期，可以切换年份和月份。</text>
     </view>
   </view>
   <text class="{{ arrowdown }}">⇩</text>

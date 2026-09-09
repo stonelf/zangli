@@ -1,0 +1,10 @@
+<view class="signin-notify">
+  <view class="icon-notify"></view>
+  <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
+    <block wx:for="{{sucMsg}}" wx:key="index">
+      <swiper-item>
+        <view class="swiper_item">{{item}}</view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>

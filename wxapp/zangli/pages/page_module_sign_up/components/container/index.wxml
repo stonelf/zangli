@@ -1,0 +1,43 @@
+<!-- components/container/index.wxml -->
+<view class="signin-container">
+  <view class="signin-hd">
+    <view class="signin-hd-tit">
+      <view class="signin-hd__record">
+        <view class="sign-days">
+          <text class="days-text">已经连续签到{{clockNum}}天</text>
+        </view>
+      </view>
+      <view class="rule" bindtap="getSignInRule">签到规则</view>
+      <!-- <sign-switch></sign-switch> -->
+    </view>
+    <view class="signin-desc" wx:if="{{heartenInfo.day}}">
+      <view class="remind-text">
+        再连签
+        <text class="theme-text-color">{{heartenInfo.day}}</text>
+        天，额外获得
+        <text class="theme-text-color">{{heartenInfo.name}}</text>
+        {{heartenInfo.extraType==='prizeChance' ? '抽奖机会':''}}
+      </view>
+      <!-- <view class="remind-text">签到提醒</view> -->
+    </view>
+  </view>
+  <signIn-step signInStart="{{signInStart}}" datas="{{signInTimes}}" clockNum="{{clockNum}}"></signIn-step>
+  <signIn-notify sucMsg="{{sucMsg}}"></signIn-notify>
+  <!-- 签到成功弹窗 start -->
+  <signIn-dialog wx:if="{{dialogInfo==='activated-star'}}" isDesc="{{true}}" signIn="{{true}}" show="{{dialogStatus}}" signStatus="签到成功" prizeCon="{{desc}}" desc="{{heartenMsg}}" btnCon="明天提醒" btnBgColor="#FFB21E" dialogBg="https://scene-module-9gee6idgabd997ca-1306328562.tcloudbaseapp.com/signIn/images/signin-success-bg.svg" bind:subscription="subscription" bind:handleClose="closesignInDialog" clockNum="{{clockNum}}"></signIn-dialog>
+  <!-- 签到成功弹窗 end -->
+  <!-- 抽奖弹窗 start -->
+  <!-- prizeCon="{{desc}}" -->
+  <signIn-dialog wx:elif="{{dialogInfo==='activated-gift'}}" show="{{dialogStatus}}" isLottery="{{true}}" lottery="{{true}}" signStatus="签到成功" dialogBg="https://scene-module-9gee6idgabd997ca-1306328562.tcloudbaseapp.com/signIn/images/signin-success-bg.svg" bind:handleClose="closesignInDialog" prizeCon="{{desc}}" desc="{{heartenMsg}}" num="{{num}}" prizeData="{{prizeData}}" bind:handleLotteryStart="startPrize" clockNum="{{clockNum}}"></signIn-dialog>
+  <!-- 抽奖弹窗 end -->
+  <!-- 中奖弹窗 start -->
+  <signIn-dialog wx:if="{{!!winPrizeDialog}}" show="{{winPrizeDialog}}" isDesc="{{false}}" signIn="{{true}}" signStatus="{{notice}}" prizeCon="{{wonCon}}" btnCon="明天提醒" btnBgColor="#F33B3D" dialogBg="https://scene-module-9gee6idgabd997ca-1306328562.tcloudbaseapp.com/signIn/images/win-bg.svg" type="{{type}}" path="{{path}}" bind:handleClose="closesignInDialog" bind:subscription="subscription" clockNum="{{clockNum}}">
+  </signIn-dialog>
+  <!-- 中奖弹窗 end -->
+
+</view>
+<!-- <rich-text nodes="{{htmlContent}}"></rich-text> -->
+
+<signIn-halfSreenDialog halfShow="{{halfDialog}}" bind:handleCloseHalfScreen="doCloseHalfDialog">
+  <rich-text nodes="{{htmlContent}}"></rich-text>
+</signIn-halfSreenDialog>

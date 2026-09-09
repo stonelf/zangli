@@ -1,34 +1,33 @@
-
+# ---------------- 字体 / 临时素材 ----------------
 ctrc-uchen.ttf
+data/lunareclipse.gif
+data/solareclipse.gif
 
+# ---------------- 本地草稿文件 ----------------
 test.html
-
-new_zangli.js
-
+transformData.html
 new_zangli.html
-
+new_zangli.js
 data/new_file.html
-
 data/new_file_2.html
-
 data/data.txt
-
 data/checkdata.html
 
-new_zangli.html
+# ---------------- 外部建议稿（不入库）----------------
+suggestionsfromkimi/
 
-new_zangli.js
+# ---------------- 系统 / 编辑器垃圾 ----------------
+.DS_Store
 
-new_zangli.html
+# ---------------- 微信开发者工具 ----------------
+# 私有配置：含本地绝对路径、调试设置、可能缓存的 openId，绝对不能入库
+**/project.private.config.json
+# 云函数依赖（单个可达 88MB）
+**/node_modules/
+# 小程序 npm 构建产物
+**/miniprogram_npm/
+# uni-app 打包产物
+**/unpackage/
 
-new_zangli.js
-
-new_zangli.js
-
-new_zangli.html
-
-transformData.html
-
-data/lunareclipse.gif
-
-data/solareclipse.gif
+# ---------------- WorkBuddy 本地工作数据 ----------------
+.workbuddy/

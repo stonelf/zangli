@@ -1,0 +1,18 @@
+<!-- scene-module/signIn/components/half-sreen-Dialog/index.wxml -->
+<view class="signin-half-mask" wx:if="{{halfShow}}" bind:tap="handleCloseHalfDialog"></view>
+<view class="signin-half-screen-dialog {{halfShow?'signin-half-screen-dialog_show':''}}">
+  <view class="signin-half-screen-dialog__hd">
+    <view class="signin-half-screen-dialog__hd__side" bind:tap="handleCloseHalfDialog">
+      <image class="icon-close"
+        src="https://scene-module-9gee6idgabd997ca-1306328562.tcloudbaseapp.com/signIn/images/icon-close.svg" />
+    </view>
+    <view class="signin-half-screen-dialog__hd__main">
+      <strong class="signin-half-screen-dialog__title">签到规则</strong>
+    </view>
+  </view>
+  <view class="signin-half-screen-dialog__bd">
+    <view class="signin-half-screen-dialog__bd-inner">
+      <slot></slot>
+    </view>
+  </view>
+</view>

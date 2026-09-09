@@ -1,0 +1,4 @@
+<view style=" background-color:{{ !disabled && checked ?  color : '' }};" class="signin-switch{{ checked ? ' is-checked' : ''}}{{ disabled ? ' is-disabled' : '' }} ext-class" bind:tap="toggle">
+  <view class="signin-switch__toggle">
+  </view>
+</view>

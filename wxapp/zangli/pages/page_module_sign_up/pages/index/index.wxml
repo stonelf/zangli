@@ -1,0 +1,3 @@
+<!-- pages/signIn/index.wxml -->
+<!-- 签到模块 start -->
+<signIn-container></signIn-container>

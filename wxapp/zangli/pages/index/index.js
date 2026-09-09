@@ -84,6 +84,11 @@ Page({
   datePickerBindchange:function(e){
     var d = new Date(e.detail.value);
     this.setData(getZangliData(d));
+  },
+  search(){
+    wx.navigateTo({
+      url: '../search/search',
+    })
   }
 })
 var cache={};
@@ -97,8 +102,8 @@ function getZangliData(d) {
   var result = {extraInfo:[]};
   var d0 = new Date(d.getFullYear(), d.getMonth(), 1),//月初
   d1 = new Date(d.getFullYear(), d.getMonth() + 1, 0)//月末
-  if (d0 < new Date("1951/2/7")) d0 = new Date("1951/2/7");
-  if (d1 > new Date("2051/1/12")) d1 = new Date("2051/1/12");
+  if (d0 < startDate) d0 = startDate;
+  if (d1 > endDate) d1 = endDate;
   result.currentMonth = d0.getFullYear() + "年" + (d0.getMonth() + 1) + "月";
   var td0=getZangli(d0),td1=getZangli(d1);
   result.currentDate = d0;
@@ -116,6 +121,7 @@ function getZangliData(d) {
     }
     var z = getZangli(d3);
     var ecl = getEclipse(d3);
+    var isToday = d3.getFullYear()==new Date().getFullYear() &&d3.getMonth()==new Date().getMonth() &&d3.getDate()==new Date().getDate();
     var t = { year: "　", month: "", date: z.day,day:i};
     if (i == d0.getDate() || z.day == "初一" || (z.day == "初二" && z.dayMiss)) {
       t.month= z.month+"月";
@@ -133,6 +139,9 @@ function getZangliData(d) {
         ecl.extraInfo
         );
       t.class=/日/.test(ecl.value)?"td solar-eclipse":"td lunar-eclipse";
+    }else{
+      if(isToday)
+        t.class="td today"
     }
     result.zangliData[result.zangliData.length - 1].push(t);
   }
@@ -165,7 +174,7 @@ function checkLine(t){
  * zangli - v1.0 - 2019-01-29
  * Copyright Stone Huang and other contributors
  * https://github.com/stonelf/zangli
- * 本项目提供1951年2月7日到2051年1月12日之间到公历藏历对照查询。数据来源于《藏历、公历、农历对照百年历书（1951-2050）》
+ * 本项目提供1951年1月8日到2051年1月12日之间到公历藏历对照查询。数据来源于《藏历、公历、农历对照百年历书（1951-2050）》
  */
 
 /* 缺日闰日表
@@ -173,10 +182,11 @@ function checkLine(t){
  * 数组中负数表示当天缺日，正数表示当天闰日
  * 0表示该月是个闰月。
  * 空数组表示该月没有闰日没有缺日(吉祥月)。
- * 从铁兔年一月初一（1951.2.7）开始推算。
+ * 从铁虎年十二月初一（1951.1.8）开始推算。
  */
 
-var specialDays = [[[-28], [8, -21], [-25], [1, -18], [0, 7, -10, -22, 27], [-14], [-17, 24], [-9], [-13, 19], [-6, 24, -30], [], [-4, 16, -29], [20, -22]],//1951
+var specialDays = [[[16, -21]],//铁虎年满意月
+[[-27], [8, -21], [-25], [1, -18], [0, 7, -10, -22, 27], [-14], [-17, 24], [-9], [-13, 19], [-6, 24, -30], [], [-4, 16, -29], [20, -22]],//1951
 [[-28], [11, -21], [-25], [5, -18], [-21], [2, -14], [-17, 28], [-10], [-13, 23], [-7, 28, -29], [-13, 15], [-6, 19, -30]],//1952
 [[], [-5, 11, -28], [15, -22], [-25], [10, -18], [-21], [7, -13], [-17], [3, -10], [-14, 26], [-8], [-13, 18]],//1953
 [[-7, 21], [0, -1], [-5, 14, -29], [], [-3, 9, -25], [-28], [6, -21], [-24], [2, -17], [-22, 26], [-15, 30], [-9], [-14, 21]],//1954
@@ -277,7 +287,8 @@ var specialDays = [[[-28], [8, -21], [-25], [1, -18], [0, 7, -10, -22, 27], [-14
 [[10, -23], [-28], [3, -21], [8, -13, -25, 28], [-17], [5, -8, -20, 25], [-12], [2, -4, -16, 21], [-9, 25], [-2], [-7, 18], [-1, 21, -25]],//2049
 [[-30], [13, -24], [-28], [7, -21], [-24], [4, -17], [-19, 30], [-12], [-16, 25], [-10, 29], [-3]]]//2050
 
-var startDate = new Date("1951/2/7");
+var startDate = new Date("1951/1/8");
+var endDate = new Date("2051/2/11");
 /*方法说明
  *@method getZangli
  *@param{String,Date,Number}p 可以转换成标准日期的入参
@@ -305,7 +316,7 @@ function getZangli(p) {
     }
   }
   if (typeof d == "number") {
-    console.warn("警告：尝试把数字 " + p + " 按秒转换成日期");
+    console.info("尝试把数字 " + p + " 按秒转换成日期");
     d = new Date(d);
   }
 
@@ -313,16 +324,16 @@ function getZangli(p) {
     console.error("错误：只能接受日期类型数字类型或者标准格式的字符串类型输入,当前输入的是" + p.constructor.toString());
     return { value: "error" };
   }
-
-  if (d.getTime() < (new Date("1951/2/7").getTime())) {
-    console.error("错误:不能转换早于1951年2月7日的日期");
+  d = new Date(d.getFullYear(), d.getMonth(), d.getDate());//抹掉时分秒	
+  if (d.getTime() < startDate.getTime()) {
+    console.error("错误:不能转换早于" + startDate.getFullYear() + "年" + (startDate.getMonth() + 1) + "月" + startDate.getDate() + "日的日期");
     return { value: "error" };
   }
-  if (d.getTime() >= (new Date("2051/1/13").getTime())) {
-    console.error("错误:不能转换晚于2051年1月12日的日期");
+  if (d.getTime() >= (endDate.getTime() + 86400000)) {
+    console.error("错误:不能转换晚于" + endDate.getFullYear() + "年" + (endDate.getMonth() + 1) + "月" + endDate.getDate() + "日的日期");
     return { value: "error" };
   }
-
+  
   var days = Math.round((d - startDate) / 86400 / 1000);
   var countingDays = 0;
   var countingMonth = 0;
@@ -361,8 +372,11 @@ function getZangli(p) {
             }
           }
         }
+        if (years == 0) {
+          months = 12 - specialDays[0].length;
+        }
         var result = {};
-        result.year = "铁水木火土".substr(Math.floor((years + 1) / 2) % 5, 1) + "兔龙蛇马羊猴鸡狗猪鼠牛虎".substr(years % 12, 1);
+        result.year = "铁水木火土".substr(Math.floor((years) / 2) % 5, 1) + "虎兔龙蛇马羊猴鸡狗猪鼠牛".substr(years % 12, 1);
 
         result.month = (monthLeap ? "闰" : "") + ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"][months - leapMonths];
         result.tMonth = (monthLeap ? "闰" : "") + ["神变", "苦行", "具香", "萨嘎", "作净", "明净", "具醉", "具贤", "天降", "持众", "庄严", "满意"][months - leapMonths]
@@ -413,9 +427,9 @@ function eclipse() {
 }
 var eclipseDate = {};
 var ms_oneday = 86400000;
-var ms_8hr = ms_oneday / 3;
+//var ms_8hr = ms_oneday / 3;
 for (var i = 0; i < eclipseList.length; i++) {
-  var d = new Date(eclipseList[i][0] + ms_8hr);//把月食的时间转换成东八区的时间来获得日期
+  var d = new Date(eclipseList[i][0]);//把月食的时间转换成东八区的时间来获得日期
   eclipseDate[d.toDateString()] = eclipseList[i];//按照日期映射成哈希表方便查询。
 }
 
@@ -423,16 +437,16 @@ function getEclipse(date) {
   var result = new eclipse();
   var e = eclipseDate[date.toDateString()];
   if (e) {
-    d = new Date(e[0] + ms_8hr);//把日月食的时间转换成东八区的时间
+    d = new Date(e[0]);//把日月食的时间转换成东八区的时间
     result.value = eclipseType[e[1]];
-    result.extraInfo = "食甚" + d.getUTCHours() + "点" + d.getUTCMinutes() + "分";
+    result.extraInfo = "食甚" + d.getHours() + "点" + d.getMinutes() + "分";
     result.extraInfo2 = "";
     if (e.length > 2) {
       var t = result.extraInfo;
-      d = new Date(e[2] + ms_8hr);
-      result.extraInfo = "初亏" + d.getUTCHours() + "点" + d.getUTCMinutes() + "分，"+t;
-      d = new Date(e[3] + ms_8hr);
-      result.extraInfo += "，复圆" + d.getUTCHours() + "点" + d.getUTCMinutes() + "分";
+      d = new Date(e[2]);
+      result.extraInfo = "初亏" + d.getHours() + "点" + d.getMinutes() + "分，"+t;
+      d = new Date(e[3]);
+      result.extraInfo += "，复圆" + d.getHours() + "点" + d.getMinutes() + "分";
     }
   }
   return result;
