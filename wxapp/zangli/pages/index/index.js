@@ -11,11 +11,7 @@ if (typeof Page === 'function') Page({
     canPrev: true,
     canNext: true,
     pickStart: "1951-01-08",
-    pickEnd: "2051-01-12",
-    orient: "portrait",
-    rotLabel: "⤢ 横屏",
-    swiperH: 600,
-    rowH: 0
+    pickEnd: "2051-01-12"
   },
   curY: 0,
   curM: 0,
@@ -24,71 +20,6 @@ if (typeof Page === 'function') Page({
     var y = n.getFullYear(), m = n.getMonth();
     this.curY = y; this.curM = m;
     this.render();
-    this.initOrient();
-  },
-  onReady: function () { this.layout(); },
-  onUnload: function () {
-    if (typeof wx.offWindowResize === 'function') wx.offWindowResize(this._onWinResize);
-  },
-  winSize: function () {
-    var s;
-    if (typeof wx.getWindowInfo === 'function') {
-      s = wx.getWindowInfo();
-    } else if (typeof wx.getSystemInfoSync === 'function') {
-      s = wx.getSystemInfoSync();
-    } else {
-      s = { windowWidth: 375, windowHeight: 667 };
-    }
-    return { w: s.windowWidth || 375, h: s.windowHeight || 667 };
-  },
-  initOrient: function () {
-    var self = this;
-    this.layout();
-    this._onWinResize = function (res) {
-      var w = 0, h = 0;
-      if (res && res.size) { w = res.size.windowWidth; h = res.size.windowHeight; }
-      else if (res) { w = res.windowWidth; h = res.windowHeight; }
-      self.layout(w, h);
-    };
-    if (typeof wx.onWindowResize === 'function') wx.onWindowResize(this._onWinResize);
-  },
-  // 依据宽高与当前月份周数切竖/横版并精算 swiper 高度：
-  // 横版按行均分高度，让整月恰好放满不裁剪；竖版沿用固定比例。
-  layout: function (pw, ph) {
-    var s = this.winSize();
-    var w = pw || s.w, h = ph || s.h;
-    var land = h < w;
-    var orient = land ? "horizontal" : "portrait";
-
-    var rowsN = 6;
-    var cur = this.data.pages && this.data.pages[1];
-    if (cur && cur.rows && cur.rows.length) rowsN = cur.rows.length;
-
-    var swiperH, rowH = 0;
-    if (!land) {
-      swiperH = Math.round(Math.max(360, h * 0.56));
-    } else {
-      // 横向垂直空间小，全按精确 px 计算，使整月正好放满：
-      // 屏幕高 → 减去页面/头部预留(≈100px) → 卡片内边距(10)+藏历行(18) 后的净高
-      var cardPad = 10, tibH = 18, headRow = 18;
-      var avail = h - 100 - cardPad - tibH;
-      if (avail < 120) avail = 120;
-      rowH = Math.floor((avail - headRow) / rowsN);
-      if (rowH < 20) rowH = 20;
-      if (rowH > 46) rowH = 46;
-      swiperH = cardPad + tibH + headRow + rowsN * rowH;
-      if (swiperH > h - 90) swiperH = h - 90;
-    }
-    this.setData({ orient: orient, swiperH: swiperH, rowH: rowH, rotLabel: land ? "⤡ 竖屏" : "⤢ 横屏" });
-  },
-  // 小程序不能代码强制设备横屏；按钮为方向提示
-  onRotate: function () {
-    var isLand = this.data.orient === "horizontal";
-    wx.showToast({
-      title: isLand ? "已横屏；点此提示可竖回，旋转手机即返回竖版" : "请将手机横过来，进入横屏大日历",
-      icon: "none",
-      duration: 2200
-    });
   },
   // 约束在当前数据范围内
   clampYM: function (y, m) {
@@ -175,7 +106,6 @@ if (typeof Page === 'function') Page({
       canPrev: !(cy === minY && cm === minM),
       canNext: !(cy === maxY && cm === maxM)
     });
-    this.layout(); // pages 就绪后按当前月份周数精算高度
   },
   goTo: function (y, m) {
     var r = this.clampYM(y, m);

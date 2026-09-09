@@ -1,7 +1,6 @@
 {
   "usingComponents": {},
   "disableScroll": false,
-  "pageOrientation": "auto",
   "navigationBarTitleText": "藏历",
   "navigationBarBackgroundColor": "#8b0000",
   "navigationBarTextStyle": "white"

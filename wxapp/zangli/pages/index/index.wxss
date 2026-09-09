@@ -5,24 +5,6 @@ page {
   padding: 20rpx 20rpx 30rpx;
   box-sizing: border-box;
 }
-/* 旋转悬浮按钮（横/竖方向随状态反向） */
-.rot-fab {
-  position: fixed;
-  right: 20rpx;
-  top: 16rpx;
-  z-index: 50;
-  width: 132rpx;
-  height: 64rpx;
-  line-height: 64rpx;
-  text-align: center;
-  font-size: 26rpx;
-  color: #fff;
-  background: rgba(139, 0, 0, .88);
-  border-radius: 40rpx;
-  box-shadow: 0 4rpx 14rpx rgba(0, 0, 0, .18);
-  letter-spacing: 1rpx;
-}
-.rot-fab.horizontal { background: rgba(184, 134, 11, .92); }
 
 /* 头部 */
 .head {
@@ -60,8 +42,8 @@ page {
   padding: 10rpx 24rpx;
 }
 
-/* 滑动区（高度由 JS 依据方向计算） */
-.cal-swiper { margin-top: 18rpx; }
+/* 滑动区 */
+.cal-swiper { height: 660rpx; margin-top: 18rpx; }
 .month-card {
   background: #fff;
   border-radius: 22rpx;
@@ -165,34 +147,3 @@ page {
   color: #b3ab9a;
   font-size: 24rpx;
 }
-
-/* ============ 横版（重力横屏） ============
- * 说明：auto 横屏时 windowWidth 变大，rpx 基准会随宽度放大，
- * 故横版统一改用 px 控制字号/尺寸，避免叠加放大导致溢出。 */
-.page.horizontal { padding: 6px 10px; }
-.page.horizontal .head {
-  padding: 4px 8px;
-  border-radius: 12px;
-  margin-top: 0;
-}
-.page.horizontal .head-nav { gap: 4px; }
-.page.horizontal .arrow {
-  width: 42px; height: 42px; line-height: 42px;
-  font-size: 28px; border-radius: 10px;
-}
-.page.horizontal .head-label .ym { font-size: 20px; }
-.page.horizontal .caret { font-size: 13px; }
-.page.horizontal .head-today { font-size: 13px; padding: 3px 12px; border-radius: 20px; }
-.page.horizontal .cal-swiper { margin-top: 6px; }
-.page.horizontal .month-card { padding: 5px; border-radius: 12px; }
-.page.horizontal .tib { font-size: 13px; margin-bottom: 2px; height: 16px; line-height: 16px; }
-.page.horizontal .table { display: block; }
-.page.horizontal .tr { flex: none; display: flex; }
-.page.horizontal .tr.head { height: 18px; }
-.page.horizontal .th { font-size: 11px; line-height: 18px; height: 18px; align-self: center; }
-.page.horizontal .td { height: auto; margin: 1px; border-radius: 8px; box-sizing: border-box; overflow: hidden; }
-.page.horizontal .td .top { font-size: 10px; height: 13px; line-height: 1.2; }
-.page.horizontal .td .sub { font-size: 10px; height: 13px; line-height: 1.2; }
-.page.horizontal .td .main { font-size: 19px; line-height: 1.2; }
-.page.horizontal .events,
-.page.horizontal .tip { display: none; }

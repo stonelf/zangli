@@ -1,7 +1,5 @@
 <!--index.wxml-->
-<view class="page {{orient}}">
-  <view class="rot-fab {{orient}}" bindtap="onRotate">{{rotLabel}}</view>
-
+<view class="page">
   <!-- 头部：年月 + 切换 -->
   <view class="head">
     <view class="head-nav">
@@ -18,7 +16,7 @@
   </view>
 
   <!-- 月份滑动视图 -->
-  <swiper class="cal-swiper" style="height:{{swiperH}}px" current="{{swiperIndex}}" duration="220"
+  <swiper class="cal-swiper" current="{{swiperIndex}}" duration="220"
           bindchange="onSwiperChange">
     <block wx:for="{{pages}}" wx:key="label" wx:for-item="pg">
       <swiper-item>
@@ -34,8 +32,8 @@
               <view class="th">五</view>
               <view class="th">六</view>
             </view>
-            <block wx:for="{{pg.rows}}" wx:for-item="row" wx:for-index="ri">
-              <view class="tr" style="{{orient === 'horizontal' && rowH ? 'height:' + rowH + 'px' : ''}}">
+            <block wx:for="{{pg.rows}}" wx:for-item="row">
+              <view class="tr">
                 <view wx:for="{{row}}" wx:for-item="cell" wx:key="index" class="{{cell.cls}}">
                   <text class="top">{{cell.top}}</text>
                   <text class="sub">{{cell.sub}}</text>
@@ -54,5 +52,5 @@
     <text class="events-title">本月要事</text>
     <text class="events-body">{{pages[1].extra}}</text>
   </view>
-  <view class="tip">左右滑动切换月份 · 点顶部 ‹ › 或点右上角切换横屏大日历</view>
+  <view class="tip">左右滑动切换月份 · 或点顶部 ‹ ›</view>
 </view>
