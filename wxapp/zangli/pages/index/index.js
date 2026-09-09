@@ -70,25 +70,22 @@ Page({
   previousMonth: function(){
     var d=new Date(this.data.currentDate);
     d.setMonth(d.getMonth()-1);
-    if(d-new Date("1951/2/1")>=0){
+    // 不能早于数据起始月（1951-01）。原先硬编码 1951/2/1，会漏掉 1951 年 1 月
+    if(d >= new Date(startDate.getFullYear(), startDate.getMonth(), 1)){
       this.setData(getZangliData(d));
     }
   },
- nextMonth: function() { 
+ nextMonth: function() {
    var d = new Date(this.data.currentDate);
    d.setMonth(d.getMonth() + 1);
-   if (d - new Date("2051/1/12") < 0)
-   this.setData(getZangliData(d));
-
+   // 不能晚于数据截止月（2051-02）。原先硬编码 2051/1/12，会少掉藏历铁马年十二月整整一个月
+   if (d <= new Date(endDate.getFullYear(), endDate.getMonth(), 1)){
+     this.setData(getZangliData(d));
+   }
  },
   datePickerBindchange:function(e){
     var d = new Date(e.detail.value);
     this.setData(getZangliData(d));
-  },
-  search(){
-    wx.navigateTo({
-      url: '../search/search',
-    })
   }
 })
 var cache={};
@@ -285,7 +282,7 @@ var specialDays = [[[16, -21]],//铁虎年满意月
 [[7, -15], [-20, 30], [-13], [-17, 25], [-10], [-12, 23], [-5], [-8, 18], [-1], [-6, 12, -29], [15, -23], [-28]],//2047
 [[7, -22], [10, -16], [-20], [4, -14], [-17, 30], [-10], [-12, 27], [-5], [-8, 22], [-2], [0, -6, 15, -30], [18, -24], [-29]],//2048
 [[10, -23], [-28], [3, -21], [8, -13, -25, 28], [-17], [5, -8, -20, 25], [-12], [2, -4, -16, 21], [-9, 25], [-2], [-7, 18], [-1, 21, -25]],//2049
-[[-30], [13, -24], [-28], [7, -21], [-24], [4, -17], [-19, 30], [-12], [-16, 25], [-10, 29], [-3]]]//2050
+[[-30], [13, -24], [-28], [7, -21], [-24], [4, -17], [-19, 30], [-12], [-16, 25], [-10, 29], [-3], [-8, 12]]]//2050
 
 var startDate = new Date("1951/1/8");
 var endDate = new Date("2051/2/11");
@@ -316,7 +313,7 @@ function getZangli(p) {
     }
   }
   if (typeof d == "number") {
-    console.info("尝试把数字 " + p + " 按秒转换成日期");
+    console.info("尝试把数字 " + p + " 按毫秒转换成日期");
     d = new Date(d);
   }
 
@@ -423,30 +420,42 @@ var eclipseList = [[-593924780000, 2], [-592579347000, 8], [-579905121000, 8], [
 function eclipse() {
   this.value = "";
   this.extraInfo = "";
+  this.extraInfo2 = "";
   this.toString = function () { return this.value; }
 }
 var eclipseDate = {};
 var ms_oneday = 86400000;
-//var ms_8hr = ms_oneday / 3;
+var ms_8hr = 28800000;//东八区固定偏移
+
+/* 日月食时刻记录的是北京时间，所以日期键必须固定按东八区计算。
+ * 早期实现用 toDateString()（运行环境本地时区）建键，导致非东八区用户查不到当天的日月食。 */
+function eclipseDayKey(t) {
+  var x = new Date(t + ms_8hr);
+  return x.getUTCFullYear() + "/" + (x.getUTCMonth() + 1) + "/" + x.getUTCDate();
+}
+/* 查询键取入参的「本地年月日」，把它当作东八区的年月日来查。 */
+function civilDayKey(d) {
+  return d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
+}
+/* 把时间戳换算成东八区的「X点Y分」 */
+function bjTime(t) {
+  var x = new Date(t + ms_8hr);
+  return x.getUTCHours() + "点" + x.getUTCMinutes() + "分";
+}
 for (var i = 0; i < eclipseList.length; i++) {
-  var d = new Date(eclipseList[i][0]);//把月食的时间转换成东八区的时间来获得日期
-  eclipseDate[d.toDateString()] = eclipseList[i];//按照日期映射成哈希表方便查询。
+  eclipseDate[eclipseDayKey(eclipseList[i][0])] = eclipseList[i];//按照日期映射成哈希表方便查询。
 }
 
 function getEclipse(date) {
   var result = new eclipse();
-  var e = eclipseDate[date.toDateString()];
+  var e = eclipseDate[civilDayKey(date)];
   if (e) {
-    d = new Date(e[0]);//把日月食的时间转换成东八区的时间
     result.value = eclipseType[e[1]];
-    result.extraInfo = "食甚" + d.getHours() + "点" + d.getMinutes() + "分";
-    result.extraInfo2 = "";
+    result.extraInfo2 = "食甚" + bjTime(e[0]);
     if (e.length > 2) {
-      var t = result.extraInfo;
-      d = new Date(e[2]);
-      result.extraInfo = "初亏" + d.getHours() + "点" + d.getMinutes() + "分，"+t;
-      d = new Date(e[3]);
-      result.extraInfo += "，复圆" + d.getHours() + "点" + d.getMinutes() + "分";
+      result.extraInfo = "初亏" + bjTime(e[2]) + "，" + result.extraInfo2 + "，复圆" + bjTime(e[3]);
+    } else {
+      result.extraInfo = result.extraInfo2;
     }
   }
   return result;

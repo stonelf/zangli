@@ -2,7 +2,7 @@
  * zangli - v1.0 - 2019-01-29
  * Copyright Stone Huang and other contributors
  * https://github.com/stonelf/zangli
- * 本项目提供1951年1月8日到2051年1月12日之间到公历藏历对照查询。数据来源于《藏历、公历、农历对照百年历书（1951-2050）》
+ * 本项目提供1951年1月8日到2051年2月11日之间到公历藏历对照查询。数据来源于《藏历、公历、农历对照百年历书（1951-2050）》
  */
 
 /* 缺日闰日表
@@ -10,7 +10,7 @@
  * 数组中负数表示当天缺日，正数表示当天闰日
  * 0表示该月是个闰月。
  * 空数组表示该月没有闰日没有缺日(吉祥月)。
- * 从铁兔年一月初一（1951.2.7）开始推算。
+ * 从铁虎年十二月初一（1951.1.8）开始推算。
  */
 
 var specialDays=[[[16,-21]],//铁虎年满意月
@@ -144,7 +144,7 @@ function getZangli(p){
 		}
 	}
 	if (typeof d == "number"){
-		console.warn("警告：尝试把数字 "+p+" 按秒转换成日期");
+		console.warn("警告：尝试把数字 "+p+" 按毫秒转换成日期");
 		d=new Date(d);
 	}
 
@@ -152,7 +152,8 @@ function getZangli(p){
 		console.error("错误：只能接受日期类型数字类型或者标准格式的字符串类型输入,当前输入的是"+ p.constructor.toString());
 		return {value:"error"};
 	}
-	
+	// 抹掉时分秒：否则带时间的入参会被下面的 Math.round 舍入到下一天
+	d=new Date(d.getFullYear(),d.getMonth(),d.getDate());
 	if (d.getTime()<startDate.getTime()){
 		console.error("错误:不能转换早于"+startDate.getFullYear()+"年"+(startDate.getMonth()+1)+"月"+startDate.getDate()+"日的日期");
 		return {value:"error"};
@@ -213,8 +214,8 @@ function getZangli(p){
 				result.monthLeap=monthLeap;
 				result.dayMiss=dayMiss;
 				result.value=result.year+"年"+result.month+"月("+result.tMonth+"月)"+result.day;
-				extraInfo="";
-				extraInfo2=""
+				var extraInfo="";
+				var extraInfo2="";
 				if(!dayLeap)switch (tDays){
 					case 0:
 						if(months==0) extraInfo="神变节";else{extraInfo="禅定胜王佛节日";extraInfo2="作何善恶成百倍";}
@@ -255,26 +256,37 @@ function eclipse(){
 }
 var eclipseDate={};
 var ms_oneday=86400000;
+var ms_8hr=28800000;//东八区固定偏移
+/* 日月食时刻记录的是北京时间，所以日期键必须固定按东八区计算。
+ * 早期实现用 toDateString()（运行环境本地时区）建键，导致非东八区用户查不到当天的日月食。 */
+function eclipseDayKey(t){
+	var x=new Date(t+ms_8hr);
+	return x.getUTCFullYear()+"/"+(x.getUTCMonth()+1)+"/"+x.getUTCDate();
+}
+/* 查询键取入参的「本地年月日」，把它当作东八区的年月日来查。 */
+function civilDayKey(d){
+	return d.getFullYear()+"/"+(d.getMonth()+1)+"/"+d.getDate();
+}
+/* 把时间戳换算成东八区的「X点Y分」 */
+function bjTime(t){
+	var x=new Date(t+ms_8hr);
+	return x.getUTCHours()+"点"+x.getUTCMinutes()+"分";
+}
 for(var i=0;i<eclipseList.length;i++){
-	var d=new Date(eclipseList[i][0]);//把日月食的时间转换成本地的时间来获得日期
-	eclipseDate[d.toDateString()]=eclipseList[i];//按照日期映射成哈希表方便查询。
+	eclipseDate[eclipseDayKey(eclipseList[i][0])]=eclipseList[i];//按照日期映射成哈希表方便查询。
 }
 
 function getEclipse(date){
 	var result=new eclipse();
-	var e=eclipseDate[date.toDateString()];
+	var e=eclipseDate[civilDayKey(date)];
 	if(e){
-		d=new Date(e[0]);//把日月食的时间转换成东八区的时间
 		result.value=eclipseType[e[1]];
-			result.extraInfo="食甚"+d.getHours()+"点"+d.getMinutes()+"分";
-			result.extraInfo2="";
-			if( e.length>2){
-				result.extraInfo2=result.extraInfo;
-				d=new Date(e[2]+28800000);
-				result.extraInfo="初亏"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
-				d=new Date(e[3]+28800000);
-				result.extraInfo+="，复圆"+d.getUTCHours()+"点"+d.getUTCMinutes()+"分";
-			}
+		result.extraInfo2="食甚"+bjTime(e[0]);
+		if( e.length>2){
+			result.extraInfo="初亏"+bjTime(e[2])+"，"+result.extraInfo2+"，复圆"+bjTime(e[3]);
+		}else{
+			result.extraInfo=result.extraInfo2;
+		}
 	}
 	return result;
 }

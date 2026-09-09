@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/testWXgateway/index",
-    "pages/index/index"
+    "pages/index/index",
+    "pages/testWXgateway/index"
   ],
   "window": {
     "backgroundColor": "#8b0000",

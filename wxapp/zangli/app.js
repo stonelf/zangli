@@ -1,16 +1,7 @@
 //app.js
+// 全部历法计算在本地完成，不依赖云开发（原 wx.cloud.init 已移除）
 App({
   onLaunch: function () {
-    
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
-      wx.cloud.init({
-        traceUser: true,
-        env: 'test-943705',
-      })
-    }
-
     this.globalData = {}
   },
   onShow:function(data){

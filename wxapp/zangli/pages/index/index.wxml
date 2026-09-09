@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view bindlongpress='search'>
+<view>
   <text style="margin-top:{{ arrowup }}em;text-align:center;display:block">⇧</text>
   <view class="container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
 
