@@ -11,7 +11,10 @@ if (typeof Page === 'function') Page({
     canPrev: true,
     canNext: true,
     pickStart: "1951-01-08",
-    pickEnd: "2051-01-12"
+    pickEnd: "2051-01-12",
+    orient: "portrait",
+    rotLabel: "⤢ 横屏",
+    swiperH: 600
   },
   curY: 0,
   curM: 0,
@@ -20,6 +23,51 @@ if (typeof Page === 'function') Page({
     var y = n.getFullYear(), m = n.getMonth();
     this.curY = y; this.curM = m;
     this.render();
+    this.initOrient();
+  },
+  onReady: function () { this.layout(); },
+  onUnload: function () {
+    if (typeof wx.offWindowResize === 'function') wx.offWindowResize(this._onWinResize);
+  },
+  winSize: function () {
+    var s;
+    if (typeof wx.getWindowInfo === 'function') {
+      s = wx.getWindowInfo();
+    } else if (typeof wx.getSystemInfoSync === 'function') {
+      s = wx.getSystemInfoSync();
+    } else {
+      s = { windowWidth: 375, windowHeight: 667 };
+    }
+    return { w: s.windowWidth || 375, h: s.windowHeight || 667 };
+  },
+  initOrient: function () {
+    var self = this;
+    this.layout();
+    this._onWinResize = function (res) {
+      var w = 0, h = 0;
+      if (res && res.size) { w = res.size.windowWidth; h = res.size.windowHeight; }
+      else if (res) { w = res.windowWidth; h = res.windowHeight; }
+      self.layout(w, h);
+    };
+    if (typeof wx.onWindowResize === 'function') wx.onWindowResize(this._onWinResize);
+  },
+  // 依据宽高切换竖/横版并重算日历高度；横版隐去要事/提示以腾出空间
+  layout: function (pw, ph) {
+    var s = this.winSize();
+    var w = pw || s.w, h = ph || s.h;
+    var land = h < w;
+    var orient = land ? "horizontal" : "portrait";
+    var swiperH = land ? Math.round(Math.max(240, h - 150)) : Math.round(Math.max(360, h * 0.56));
+    this.setData({ orient: orient, swiperH: swiperH, rotLabel: land ? "⤡ 竖屏" : "⤢ 横屏" });
+  },
+  // 小程序不能代码强制设备横屏；按钮为方向提示
+  onRotate: function () {
+    var isLand = this.data.orient === "horizontal";
+    wx.showToast({
+      title: isLand ? "已横屏；点此提示可竖回，旋转手机即返回竖版" : "请将手机横过来，进入横屏大日历",
+      icon: "none",
+      duration: 2200
+    });
   },
   // 约束在当前数据范围内
   clampYM: function (y, m) {

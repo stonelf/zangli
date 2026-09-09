@@ -1,5 +1,7 @@
 <!--index.wxml-->
-<view class="page">
+<view class="page {{orient}}">
+  <view class="rot-fab {{orient}}" bindtap="onRotate">{{rotLabel}}</view>
+
   <!-- 头部：年月 + 切换 -->
   <view class="head">
     <view class="head-nav">
@@ -16,8 +18,8 @@
   </view>
 
   <!-- 月份滑动视图 -->
-  <swiper class="cal-swiper" current="{{swiperIndex}}" duration="220"
-          bindchange="onSwiperChange" circular="{{false}}">
+  <swiper class="cal-swiper" style="height:{{swiperH}}px" current="{{swiperIndex}}" duration="220"
+          bindchange="onSwiperChange">
     <block wx:for="{{pages}}" wx:key="label" wx:for-item="pg">
       <swiper-item>
         <view class="month-card">
@@ -52,5 +54,5 @@
     <text class="events-title">本月要事</text>
     <text class="events-body">{{pages[1].extra}}</text>
   </view>
-  <view class="tip">左右滑动切换月份 · 或点顶部 ‹ ›</view>
+  <view class="tip">左右滑动切换月份 · 点顶部 ‹ › 或点右上角切换横屏大日历</view>
 </view>
