@@ -57,7 +57,9 @@ if (typeof Page === 'function') Page({
     var w = pw || s.w, h = ph || s.h;
     var land = h < w;
     var orient = land ? "horizontal" : "portrait";
-    var swiperH = land ? Math.round(Math.max(240, h - 150)) : Math.round(Math.max(360, h * 0.56));
+    var swiperH = land
+      ? Math.round(Math.max(170, h - 92))
+      : Math.round(Math.max(360, h * 0.56));
     this.setData({ orient: orient, swiperH: swiperH, rotLabel: land ? "⤡ 竖屏" : "⤢ 横屏" });
   },
   // 小程序不能代码强制设备横屏；按钮为方向提示

@@ -166,24 +166,30 @@ page {
   font-size: 24rpx;
 }
 
-/* ============ 横版（重力横屏） ============ */
-.page.horizontal { padding: 8rpx 14rpx 12rpx; }
+/* ============ 横版（重力横屏） ============
+ * 说明：auto 横屏时 windowWidth 变大，rpx 基准会随宽度放大，
+ * 故横版统一改用 px 控制字号/尺寸，避免叠加放大导致溢出。 */
+.page.horizontal { padding: 6px 10px; }
 .page.horizontal .head {
-  padding: 6rpx 10rpx;
-  border-radius: 14rpx;
+  padding: 4px 8px;
+  border-radius: 12px;
   margin-top: 0;
 }
-.page.horizontal .arrow { width: 64rpx; height: 64rpx; line-height: 64rpx; font-size: 40rpx; }
-.page.horizontal .head-label .ym { font-size: 34rpx; }
-.page.horizontal .head-today { font-size: 22rpx; padding: 4rpx 16rpx; }
-.page.horizontal .cal-swiper { margin-top: 8rpx; }
-.page.horizontal .month-card { padding: 6rpx 8rpx; }
-.page.horizontal .tib { font-size: 22rpx; margin-bottom: 4rpx; }
-/* 横版格子更大、字更大（空间更宽，藏历日醒目） */
-.page.horizontal .th { font-size: 20rpx; line-height: 2.2; }
-.page.horizontal .td { margin: 2rpx; border-radius: 12rpx; }
-.page.horizontal .td .top { font-size: 18rpx; height: 22rpx; }
-.page.horizontal .td .sub { font-size: 18rpx; height: 22rpx; }
-.page.horizontal .td .main { font-size: 40rpx; line-height: 1.35; }
+.page.horizontal .head-nav { gap: 4px; }
+.page.horizontal .arrow {
+  width: 42px; height: 42px; line-height: 42px;
+  font-size: 28px; border-radius: 10px;
+}
+.page.horizontal .head-label .ym { font-size: 20px; }
+.page.horizontal .caret { font-size: 13px; }
+.page.horizontal .head-today { font-size: 13px; padding: 3px 12px; border-radius: 20px; }
+.page.horizontal .cal-swiper { margin-top: 6px; }
+.page.horizontal .month-card { padding: 3px 5px; border-radius: 14px; }
+.page.horizontal .tib { font-size: 13px; margin-bottom: 2px; }
+.page.horizontal .th { font-size: 11px; line-height: 2; }
+.page.horizontal .td { margin: 1px; border-radius: 8px; }
+.page.horizontal .td .top { font-size: 10px; height: 13px; line-height: 1.2; }
+.page.horizontal .td .sub { font-size: 10px; height: 13px; line-height: 1.2; }
+.page.horizontal .td .main { font-size: 19px; line-height: 1.25; }
 .page.horizontal .events,
 .page.horizontal .tip { display: none; }
